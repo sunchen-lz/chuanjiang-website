@@ -1,3 +1,5 @@
+import { initJadeSphere } from './jade-sphere';
+
 export function initIntelligenceMap() {
   const map = document.querySelector<HTMLElement>('.intelligence-map');
   const core = map?.querySelector<HTMLElement>('.map-center');
@@ -7,11 +9,13 @@ export function initIntelligenceMap() {
   const caption = map.querySelector<HTMLElement>('.map-context');
   const defaultCaption = caption?.textContent ?? '';
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const jade = initJadeSphere(core, reduced);
 
   function positionConnections() {
     if (!map || !core || !svg) return;
     const bounds = map.getBoundingClientRect();
     if (!bounds.width || !bounds.height) return;
+    jade?.resize();
     svg.setAttribute('viewBox', `0 0 ${bounds.width} ${bounds.height}`);
     const center = core.getBoundingClientRect();
     const cx = center.left - bounds.left + center.width / 2;

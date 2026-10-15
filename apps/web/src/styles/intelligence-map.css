@@ -54,33 +54,40 @@
   top: 50%;
   width: 162px;
   height: 162px;
-  border: 1px solid #a0cdbb66;
+  border: 0;
+  isolation: isolate;
+  overflow: hidden;
+  pointer-events: none;
   background:
-    radial-gradient(ellipse at var(--map-glint-x) var(--map-glint-y), #8cc8ab38, transparent 50%),
+    url('/media/jade-core.png') center / cover no-repeat,
     radial-gradient(ellipse at 60% 75%, #0b2222 12%, #153b35 48%, #315f50 83%, #92c4a6 130%);
-  box-shadow: inset 0 2px 3px #e0efd54a, inset 3px 0 12px #b2d7b80e, inset 0 -15px 24px #020e12b3,
-    0 16px 28px #020e125c, 0 1px 1px #020e12, 0 0 64px #8bc1a91a;
+  box-shadow: 0 20px 27px -12px #010b0c99, 0 0 45px #7cc6a714;
   transition: box-shadow .4s;
 }
-.intelligence-map .map-center::before {
-  inset: 4px;
-  border: 1px solid transparent;
-  border-top-color: #e4efd33b;
-  border-left-color: #bee1ce13;
-  background: linear-gradient(145deg, #e2f2d414, transparent 46%);
-  transform: none;
+.intelligence-map .map-center::before,
+.intelligence-map .map-center::after { content: none; }
+.intelligence-map .map-center > .jade-flow {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  z-index: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
 }
-.intelligence-map .map-center::after {
-  inset: -6px;
-  border: 1px solid #9ac4b028;
-  box-shadow: 0 0 0 3px #0c242421;
-  transform: none;
+.intelligence-map .map-center > :not(canvas) { position: relative; z-index: 2; }
+.core-label { color: #d5ead6; font: 6px/1 var(--mono); letter-spacing: .19em; margin: 1px 0 11px; text-shadow: 0 1px 3px #183d2eb3; }
+.intelligence-map .core-symbol { width: 43px; height: 40px; padding: 0; margin: 0 0 10px; filter: drop-shadow(0 1px 1px #193f31cc) drop-shadow(0 0 4px #d8f4cf24); }
+.intelligence-map .map-center strong { font-size: 13px; letter-spacing: .12em; font-weight: 500; color: #f4f1d9; text-shadow: 0 1px 3px #102e26cc; }
+.intelligence-map .map-center small { font-size: 8px; margin-top: 6px; color: #d7e8d5; letter-spacing: .12em; text-shadow: 0 1px 2px #173d2ec9; }
+.intelligence-map:has(.map-node:is(:hover, :focus-visible)) .map-center { box-shadow: 0 20px 27px -12px #010b0c99, 0 0 45px #7cc6a714; }
+.hero .map-foreground {
+  position: absolute;
+  inset: auto;
+  z-index: 4;
+  pointer-events: none;
 }
-.core-label { color: #a9c5b4; font: 6px/1 var(--mono); letter-spacing: .19em; margin: 1px 0 11px; }
-.intelligence-map .core-symbol { width: 43px; height: 40px; padding: 0; margin: 0 0 10px; filter: drop-shadow(0 2px 3px #02161599); }
-.intelligence-map .map-center strong { font-size: 13px; letter-spacing: .12em; font-weight: 500; color: #e0ebda; }
-.intelligence-map .map-center small { font-size: 8px; margin-top: 6px; color: #a0c5b5; letter-spacing: .12em; }
-.intelligence-map:has(.map-node:is(:hover, :focus-visible)) .map-center { box-shadow: inset 0 2px 3px #e0efd55a, inset 0 -15px 24px #020e12b3, 0 16px 28px #020e125c, 0 0 70px #8bc1a92a; }
 .intelligence-map .map-node {
   width: 170px;
   min-height: 79px;
@@ -155,7 +162,7 @@
 .intelligence-map .node-care { top: 14%; right: 0; }
 .intelligence-map .node-edu { bottom: 19%; left: 0; }
 .intelligence-map .node-city { bottom: 16%; right: 0; }
-.intelligence-map .map-note { left: 0; right: 0; bottom: 1%; gap: 14px; }
+.intelligence-map .map-note { left: 0; right: 0; bottom: 1%; gap: 14px; z-index: 5; }
 .intelligence-map .map-note > span { display: block; font: 9px/1.6 var(--sans); color: #a7c7b7; letter-spacing: .07em; }
 .intelligence-map .map-note small { font: 7px var(--mono); color: #8eaa9b; letter-spacing: .1em; }
 .intelligence-map .map-note i { background: linear-gradient(90deg, #8db9a342, #8db9a30c); }
