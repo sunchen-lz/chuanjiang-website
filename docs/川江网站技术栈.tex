@@ -1,0 +1,299 @@
+\documentclass[UTF8,zihao=-4,a4paper]{ctexart}
+
+\usepackage[a4paper,top=22mm,bottom=20mm,left=19mm,right=19mm,headheight=15pt]{geometry}
+\usepackage{booktabs,longtable,tabularx,array,multirow}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,fit,calc,shapes.geometric}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{tcolorbox}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{hyperref}
+\usepackage{microtype}
+
+\definecolor{ink}{HTML}{14212B}
+\definecolor{navy}{HTML}{103B57}
+\definecolor{teal}{HTML}{007D8A}
+\definecolor{sky}{HTML}{E8F3F5}
+\definecolor{mist}{HTML}{F4F7F8}
+\definecolor{gold}{HTML}{C28A24}
+\definecolor{line}{HTML}{D8E1E5}
+\definecolor{muted}{HTML}{5D6B73}
+
+\hypersetup{colorlinks=true,linkcolor=navy,urlcolor=teal,citecolor=navy,pdfauthor={川江网站},pdftitle={川江网站技术栈决策}}
+\setlist{nosep,leftmargin=1.5em}
+\setlist[itemize]{label=\textcolor{teal}{\small\textbullet}}
+\renewcommand{\arraystretch}{1.25}
+\setlength{\parindent}{2em}
+\setlength{\parskip}{0.35em}
+\setlength{\emergencystretch}{3em}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{muted}川江网站 / 技术栈决策}
+\fancyhead[R]{\small\color{muted}国内软件开发服务门户}
+\fancyfoot[C]{\small\color{muted}\thepage\ / \pageref{LastPage}}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{\hbox to\headwidth{\color{line}\leaders\hrule height \headrulewidth\hfill}}
+
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\newcolumntype{P}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcommand{\tag}[1]{\colorbox{sky}{\textcolor{navy}{\small\, #1\,}}}
+\newcommand{\term}[1]{\textbf{\textcolor{navy}{#1}}}
+\newcommand{\urltext}[1]{\href{#1}{\small\url{#1}}}
+
+\begin{document}
+
+\begin{titlepage}
+\thispagestyle{empty}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[navy] (current page.north west) rectangle ([yshift=-105mm]current page.north east);
+  \fill[teal] ([yshift=-105mm]current page.north west) rectangle ([yshift=-109mm]current page.north east);
+  \fill[gold] ([yshift=-109mm]current page.north west) rectangle ([yshift=-110mm]current page.north east);
+\end{tikzpicture}
+\vspace*{28mm}
+{\color{white}\fontsize{13pt}{18pt}\selectfont 川江网站 · 技术决策文件\par}
+\vspace{15mm}
+{\color{white}\fontsize{31pt}{42pt}\selectfont\bfseries 国内软件开发\par}
+{\color{white}\fontsize{31pt}{42pt}\selectfont\bfseries 服务门户技术栈\par}
+\vspace{9mm}
+{\color{white}\large 搜索增长 · AI 售前 · 访客归因 · 销售闭环\par}
+\vfill
+\begin{tcolorbox}[colback=white,colframe=white,boxrule=0pt,arc=1mm,left=7mm,right=7mm,top=5mm,bottom=5mm]
+\textcolor{navy}{\large\bfseries 技术栈决策版}\par
+\vspace{2mm}
+\textcolor{muted}{适用范围：面向国内企业客户的软件开发服务门户}\par
+\textcolor{muted}{决策日期：2026 年 10 月 14 日}
+\end{tcolorbox}
+\vspace{16mm}
+\begin{flushright}
+\color{muted}\small 版本 1.0 · 供产品、设计、研发、市场与销售共同使用
+\end{flushright}
+\end{titlepage}
+
+\tableofcontents
+\clearpage
+
+\section{决策摘要}
+
+川江网站定位为国内科技企业的软件开发服务门户。网站的第一目标不是展示技术名词，而是把搜索需求转化为可跟进的业务机会：
+\begin{center}
+\tag{搜索曝光} $\rightarrow$ \tag{自然访问} $\rightarrow$ \tag{内容信任} $\rightarrow$ \tag{AI 咨询} $\rightarrow$ \tag{有效线索} $\rightarrow$ \tag{商机与签约}
+\end{center}
+
+本文件确定一套以 \term{Astro + Payload 自托管 + PostgreSQL/pgvector + 阿里云百炼} 为核心的国内部署方案。公共内容优先静态生成并由国内 CDN 分发；问答、表单、预约、访客采集和 CRM 同步通过国内 Node.js 服务完成。首期采用模块化单体，避免过早引入微前端和分布式服务。
+
+网站上线后必须能够回答四个经营问题：谁访问过、从哪里来、看了什么并咨询了什么、最后是否形成商机或签约。为此，访客事件、来源归因、线索、商机和 CRM 结果使用一条可追溯的数据链关联。
+
+\begin{tcolorbox}[colback=sky,colframe=teal!55!black,boxrule=0.6pt,arc=1mm,title=\textbf{核心结论}]
+技术选型已经确定；后续实施只需在项目初始化时锁定具体依赖版本、云资源规格、CRM 连接器和百炼模型版本，不再重新讨论总体架构。
+\end{tcolorbox}
+
+\section{业务目标与边界}
+
+\subsection{建设目标}
+\begin{itemize}
+  \item 提升百度、必应、360、搜狗等国内搜索渠道的相关曝光、自然点击和品牌搜索。
+  \item 用服务页、行业方案、案例和技术问答证明软件开发能力，缩短客户理解和比较时间。
+  \item 通过带引用的 AI 售前回答技术问题，收集需求并生成可供销售使用的摘要。
+  \item 记录访客来源、内容行为、咨询、留资、跟进、报价和签约结果，形成经营闭环。
+  \item 在 AI 或外部 CRM 暂时不可用时，公共内容、联系方式、表单和线索记录仍可用。
+\end{itemize}
+
+\subsection{一期边界}
+一期建设服务、行业方案、案例、技术问答、白皮书、招聘页、智能搜索、AI 问答、需求表单、预约、线索与商机管理、来源归因、内容发布和运行监控。个性化首页、WebMCP、开发者生态门户和智能招聘列入二期，不阻塞一期上线。
+
+\section{总体架构}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[
+  node distance=7mm and 9mm,
+  box/.style={draw=line,fill=mist,rounded corners=1.5mm,minimum width=29mm,minimum height=10mm,align=center,font=\small},
+  core/.style={box,draw=teal!75!black,fill=sky},
+  store/.style={box,draw=navy!65!black,fill=white},
+  flow/.style={-{Latex[length=2mm]},draw=teal!80!black,line width=0.7pt},
+  note/.style={font=\scriptsize\color{muted},align=center}
+]
+\node[box] (search) {国内搜索\广告与分享};
+\node[core,right=of search] (cdn) {国内 CDN};
+\node[core,right=of cdn] (web) {Astro 门户\静态内容};
+\node[core,below=of web] (api) {Node / API\问答与转化};
+\node[store,below left=of api] (db) {业务 PostgreSQL\+ pgvector};
+\node[store,below right=of api] (ai) {百炼国内模型\问答与向量};
+\node[core,left=of api] (event) {第一方事件\来源归因};
+\node[core,right=of api] (worker) {Redis + Worker\任务重试};
+\node[box,below=of event] (cms) {Payload 3\内容与权限};
+\node[store,below=of worker] (crm) {CRM / 商机\结果回传};
+\node[note,below=of db] (analytics) {分析：曝光、访问、线索、签约};
+\draw[flow] (search)--(cdn)--(web);
+\draw[flow] (web)--(api);
+\draw[flow] (web)--(event);
+\draw[flow] (api)--(db);
+\draw[flow] (api)--(ai);
+\draw[flow] (api)--(worker);
+\draw[flow] (cms)--(web);
+\draw[flow] (cms)--(worker);
+\draw[flow] (worker)--(crm);
+\draw[flow] (crm)--(db);
+\draw[flow] (db)--(analytics);
+\end{tikzpicture}
+\caption{川江网站一期逻辑架构}
+\end{figure}
+
+\subsection{应用边界}
+采用三个运行单元：\term{web} 提供 Astro 门户与公开业务接口，\term{cms} 提供 Payload 管理后台，\term{worker} 执行索引、发布、CRM 同步和汇总任务。它们共享 TypeScript 领域模块，但独立部署和重启。
+
+\begin{tcolorbox}[colback=mist,colframe=line,boxrule=0.5pt,arc=1mm]
+\texttt{apps/web} · Astro 门户、事件接口、AI 流式接口\\
+\texttt{apps/cms} · Payload 内容、权限、草稿和审核\\
+\texttt{apps/worker} · 索引、发布、CRM 同步和统计汇总\\
+\texttt{packages/domain} · 线索、预约、归因等业务规则\\
+\texttt{packages/ai} · 模型、检索、引用和评估\\
+\texttt{packages/contracts} · Zod schema、事件和工具契约
+\end{tcolorbox}
+
+\section{技术栈清单}
+
+\begin{longtable}{P{28mm}P{47mm}Y}
+\caption{确定采用的技术栈}\\
+\toprule
+\textbf{层级} & \textbf{确定选型} & \textbf{职责与边界}\\
+\midrule
+\endfirsthead
+\toprule
+\textbf{层级} & \textbf{确定选型} & \textbf{职责与边界}\\
+\midrule
+\endhead
+开发基础 & TypeScript、pnpm workspace、Node.js 24 LTS & 门户、后台、Worker 共享类型与业务模块。版本在脚手架阶段锁定。\\
+内容前端 & Astro 当前稳定版、官方 Node 适配器 & 服务页、行业方案、案例、技术问答、招聘页；默认输出可抓取 HTML。\\
+交互组件 & React 岛屿 & AI 咨询、搜索、表单、预约、图表按需加载；不让静态页面承担全站 JS。\\
+样式系统 & Tailwind CSS v4、CSS 设计令牌 & 统一颜色、字体、间距和组件；资源使用国内域名或自有资源。\\
+CMS / 后台 & Payload 3 自托管，使用其匹配的 Next.js 运行时 & 内容模型、草稿、版本、角色权限、审核；扩展线索、发布和分析管理页。\\
+渲染 & SSG + 按需 SSR + CDN & 公共内容静态生成；问答、预览和动态业务使用服务端接口。\\
+业务接口 & Astro API Endpoints、Zod、SSE & 事件采集、搜索、问答、表单、预约和能力查询。\\
+数据库 & 阿里云 RDS PostgreSQL + pgvector & 业务数据、访客事件、会话、线索、商机和知识向量；CMS 数据库独立管理。\\
+数据访问 & Drizzle ORM + SQL migrations & 负责业务数据库；Payload 使用自身数据库适配器，避免共同修改内部表。\\
+AI & 阿里云百炼国内地域；初选 qwen-plus、text-embedding-v4 & 问答、需求摘要、嵌入和知识索引；密钥只在服务端。\\
+检索 & 中文关键词检索 + pgvector + RRF 融合排序 & 支持服务名称、MES/ERP 等缩写和自然语言问题；用真实问题集持续评估。\\
+异步任务 & Redis、BullMQ、PostgreSQL 事务发件箱 & 索引、发布、CRM 同步、汇总；可重试、可去重、可观察。\\
+文件 & 阿里云 OSS + 国内 CDN & 图片、白皮书、文档和简历；私有文件受控访问。\\
+访客归因 & 同域第一方采集 API + 事件表 + 分析后台 & 关联匿名访问、来源、内容、咨询、线索和 CRM 结果。\\
+销售闭环 & 内置线索/商机模块 + CRM 适配接口 & 记录跟进、报价、签约、金额和流失原因。\\
+部署 & 阿里云北京地域 ECS、Docker、Nginx、国内 CDN、RDS、OSS、托管 Redis & 门户、CMS、Worker 独立进程；同一云服务商降低链路复杂度。\\
+可观测 & web-vitals、OpenTelemetry、结构化日志、阿里云 SLS/云监控 & 性能、错误、任务积压、模型耗时、成本和转化漏斗。\\
+交付验证 & CI Runner、镜像仓库、Vitest、Playwright & 构建、预览、业务测试、发布和回滚。\\
+\bottomrule
+\end{longtable}
+
+\section{关键业务链路}
+
+\subsection{搜索增长与内容发布}
+CMS 管理服务、行业方案、案例、技术问答、文档和职位内容。每个公共页面包含稳定 URL、标题、摘要、正文、规范链接、面包屑及内部关联，正文直接输出在 HTML 中。
+
+发布顺序为：内容审核 → CMS 发布 → 创建版本任务 → 构建页面 → 部署与缓存更新 → 同步知识索引。修改、删除和撤回发布都必须更新检索索引；任务以版本号去重，旧任务不能覆盖新内容。
+
+一期接入百度、必应、360、搜狗等实际支持的站长渠道，监测展现、搜索词、点击和平均位置。Sitemap 帮助页面发现，但不等同于收录或排名保证。搜索曝光数据、网站访问数据和 CRM 结果分开采集后再关联。
+
+\subsection{访客、来源与结果}
+身份链路为：
+\begin{center}
+\texttt{visitor\_id} $\rightarrow$ \texttt{session\_id} $\rightarrow$ \texttt{lead\_id} $\rightarrow$ \texttt{opportunity\_id}
+\end{center}
+匿名访客由第一方随机编号标识；留资后关联本浏览器已有访问记录，跨设备只有在明确身份验证后才合并。保存首次来源、本次来源、转化前来源、落地页、推广参数和 referrer，无法确定时标为“直接或未知”。
+
+关键事件包括：\texttt{page\_view}、\texttt{content\_view}、\texttt{search\_submitted}、\texttt{ai\_question}、\texttt{lead\_created}、\texttt{appointment\_booked}、\texttt{opportunity\_qualified}、\texttt{quote\_sent}、\texttt{deal\_won}、\texttt{deal\_lost}。表单、预约、报价和签约由服务端或 CRM 记录，避免把前端点击误认为业务成果。
+
+\subsection{AI 售前与技术图示}
+检索范围仅包括已审核、已发布、允许公开的能力、案例和文档。每个文本块携带文档编号、版本、URL、章节和发布日期，回答保留可点击引用。中文检索采用关键词、业务词典、向量召回和 RRF 融合，先以真实中文问题集验证，再决定是否引入独立搜索服务或重排模型。
+
+AI 服务端限制问题长度、会话上下文和模型预算，支持超时和中止。资料不足时明确说明；价格、周期、预约时段和兼容性结论以业务接口或人工确认为准。需求摘要使用 schema 校验并保留原始依据，线索评分展示规则和理由。
+
+架构图使用受限结构化节点与连线、可信模板或 Mermaid/SVG 渲染，限制节点类型、长度和链接，不执行模型生成的任意 HTML 或脚本。
+
+\subsection{表单预约与 CRM}
+提交请求先写入线索和同步任务，再返回“已收件”。Worker 异步同步 CRM，记录失败、重试和处理结果；事务发件箱保证业务写入后任务不丢失。表单使用幂等键，CRM 使用去重或 upsert。邮箱域名只用于辅助填写公司信息，由访客确认。
+
+\section{为什么采用这套方案}
+
+\begin{longtable}{P{35mm}P{55mm}Y}
+\caption{主要技术决策与取舍}\\
+\toprule
+\textbf{决策} & \textbf{收益} & \textbf{边界与代价}\\
+\midrule
+Astro 作为门户前端 & 静态 HTML 默认可抓取，减少首屏 JS，适合搜索增长和内容页 & 复杂登录工作台不是它的优势；交互集中在 React 岛屿。\\
+Payload 自托管 & 结构化内容、版本和角色权限可控，数据留在国内 & 后台运行依赖 Next.js，需要维护两个前端运行时。\\
+PostgreSQL + pgvector & 业务数据和知识向量在同一事务边界，首期成本低 & 中文检索质量依赖分词、词典和评估，数据量增长后再评估独立搜索。\\
+模块化单体 & 共享领域逻辑，部署和排障简单，适合首期团队 & 应用边界需要保持清晰；规模和团队扩大后再拆服务。\\
+同域第一方采集 & CDN 命中后仍能记录访问，归因链路可控 & 受浏览器隐私设置、脚本阻止和网络失败影响，报告必须展示覆盖范围。\\
+阿里云国内部署 & 网络、存储、数据库和模型服务链路短，便于统一运维 & 需要承担云账号、备案、安全配置和供应商绑定。\\
+规则推荐先行 & 可解释、易验证，避免冷启动个性化误判 & 数据积累后才开展 A/B 和模型推荐。\\
+\bottomrule
+\end{longtable}
+
+\section{实施阶段与交付物}
+
+\begin{longtable}{P{17mm}P{38mm}Y}
+\caption{分期实施计划}\\
+\toprule
+\textbf{阶段} & \textbf{范围} & \textbf{可验收交付物}\\
+\midrule
+一期 & 内容与搜索基础 & 服务、方案、案例、问答页面；SEO 字段、Sitemap、站长平台监测；CMS 角色、审核和发布状态。\\
+一期 & 数据与转化闭环 & 第一方事件、来源归因、访客旅程、需求表单、预约、内置线索和商机；CRM 适配契约。\\
+一期 & AI 售前 & 中文混合检索、限定知识 RAG、引用回答、需求摘要和受控架构图；模型耗时和成本监控。\\
+一期 & 运行保障 & 性能、错误、任务积压、索引状态、发布回滚、备份恢复和业务流程测试。\\
+二期 & 个性化与实验 & 规则推荐、分群 CTA、A/B 实验；公共核心内容保持稳定输出。\\
+二期 & Agent 与生态 & 能力查询、文档读取、预约 API；在客户端支持时增加 WebMCP；有对外 API 产品再建设开发者门户。\\
+二期 & 招聘与多语言 & 简历匹配建议、面试预约；内容模型预留语言字段，按实际市场启用。\\
+\bottomrule
+\end{longtable}
+
+\section{验收指标与演进条件}
+
+\subsection{上线验收}
+上线前验证三条完整流程：搜索落地页到留资、AI 问答到预约、线索到成交或流失回传。重点检查匿名身份关联、来源保留、重复提交、CRM 失败恢复、撤回内容索引更新和后台角色权限。
+
+国内真实设备和运营商网络测量 p75 LCP、INP、CLS 和接口延迟。基础目标为 p75 LCP $\leq$ 2.5 秒、INP $\leq$ 200 毫秒、CLS $\leq$ 0.1；0.8 秒只作为特定测试条件下的优化目标，不作为所有用户的保证。
+
+AI 使用典型中文问题集检查检索命中、引用支撑、无资料处理、摘要准确性和预算控制。业务测试覆盖幂等、失败重试、数据权限和结果闭环，而不只检查页面是否打开。
+
+\subsection{演进触发条件}
+\begin{itemize}
+  \item 事件查询持续变慢：增加按月分区或分析存储。
+  \item 内容量和中文检索需求明显增长：评估独立搜索服务或重排模型。
+  \item 登录后的项目协同成为主体：重新评估前端组织，必要时引入更完整的应用框架。
+  \item 出现独立前端团队和不同发布周期：再评估 Module Federation 等微前端方案。
+  \item 外部 AI Agent 有稳定访问需求：在普通 API 之上增加 WebMCP 适配，并保留人工确认和普通网页入口。
+\end{itemize}
+
+\section{安全、合规与运维要求}
+
+浏览器不持有模型、数据库或 CRM 密钥；公开接口限制频率和输入长度；管理后台按角色控制内容、线索、会话和商机数据。私有白皮书和简历使用受控访问，原始事件按保留周期清理，长期分析使用汇总数据。
+
+生产环境保留上一镜像用于回滚；数据库迁移采用向前兼容策略；RDS 和 OSS 配置备份并进行恢复演练。多实例和高可用按实测容量及业务目标配置，不能仅凭 CDN 推断整体可用性。
+
+WebMCP 当前为社区草案，不能作为普通用户访问的前置依赖；“WebSkill”尚未指定具体协议和客户端，因此不纳入一期技术依赖。\footnote{规范状态以实施时的官方文档为准。}
+
+\section{官方依据与待落实配置}
+
+\begin{itemize}
+  \item Astro Islands：\urltext{https://docs.astro.build/en/concepts/islands/}
+  \item Astro Node 适配器：\urltext{https://docs.astro.build/en/guides/integrations-guide/node/}
+  \item Astro React 集成：\urltext{https://docs.astro.build/en/guides/integrations-guide/react/}
+  \item Payload 部署：\urltext{https://payloadcms.com/docs/production/deployment}
+  \item Payload 访问控制：\urltext{https://payloadcms.com/docs/access-control/overview}
+  \item Tailwind CSS v4 兼容性：\urltext{https://tailwindcss.com/docs/compatibility}
+  \item WebMCP 草案：\urltext{https://webmachinelearning.github.io/webmcp/}
+  \item 阿里云百炼嵌入调用：\urltext{https://help.aliyun.com/zh/model-studio/embedding}
+\end{itemize}
+
+实施前需要落实国内域名与备案、现有 CRM 和日历系统、云资源规模、案例原始资料、搜索平台账号、数据保留策略及联系人权限。以上配置不会改变已经确定的总体技术栈。
+
+\vfill
+\begin{center}
+\color{muted}\small 川江网站技术栈决策 · 版本 1.0 · 2026 年 10 月 14 日
+\end{center}
+
+\end{document}

@@ -1,0 +1,31 @@
+{
+  "source": "川江科技研究院企业宣传片",
+  "sourceFile": "chuanjiang-brand-film.mp4",
+  "processing": "原片提帧、裁切、去背景；保留原始标识形态与产品颜色。非矢量原稿。",
+  "logos": [
+    {
+      "id": "gongge",
+      "name": "工格办公",
+      "frameSeconds": 131,
+      "file": "gongge.png"
+    },
+    {
+      "id": "kang",
+      "name": "康小和",
+      "frameSeconds": 132,
+      "file": "kang.png"
+    },
+    {
+      "id": "zhi",
+      "name": "智小达",
+      "frameSeconds": 133.5,
+      "file": "zhi.png"
+    },
+    {
+      "id": "lu",
+      "name": "泸小智",
+      "frameSeconds": 134,
+      "file": "lu.png"
+    }
+  ]
+}

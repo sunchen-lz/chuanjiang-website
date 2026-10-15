@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="川江网站技术栈决策报告：面向国内企业的软件开发服务门户，覆盖搜索增长、AI 售前、访客归因与销售闭环。">
+  <title>川江网站技术栈 · 技术决策报告</title>
+  <style>
+    :root{--ink:#172a38;--navy:#12394e;--teal:#087e85;--gold:#b4813d;--muted:#586a77;--line:#dbe4e9;--light:#f1f6f8;--mint:#eaf5f3;--paper:#fff}
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:#e8eef2;color:var(--ink);font-family:"Microsoft YaHei","PingFang SC","Noto Sans CJK SC",sans-serif;font-size:10.3pt;line-height:1.7;-webkit-font-smoothing:antialiased}
+    a{color:var(--teal);text-underline-offset:3px}
+    button{font:inherit}
+    .toolbar{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.97);border-bottom:1px solid var(--line);box-shadow:0 2px 10px #142e4310}
+    .toolbar-inner{max-width:1080px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:13px 24px}
+    .toolbar-title{font-size:14px;font-weight:700;letter-spacing:.4px}.toolbar-note{font-size:12px;color:var(--muted);margin-top:2px}
+    .toolbar button{border:0;border-radius:6px;background:var(--navy);color:#fff;cursor:pointer;padding:10px 18px;font-size:13px;white-space:nowrap}
+    .toolbar button:hover{background:var(--teal)}.toolbar button:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+    .report{padding:28px 16px 40px}
+    .sheet{width:210mm;height:297mm;background:var(--paper);margin:0 auto 24px;padding:13mm 16mm 10mm;box-shadow:0 8px 30px #1b3d5018;position:relative;display:flex;flex-direction:column;scroll-margin-top:95px}
+    .page-head{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding-bottom:9px;font-size:9px;letter-spacing:1.3px;color:var(--muted);flex-shrink:0}
+    .brand{font-weight:700;color:var(--navy);font-size:11px;letter-spacing:1.5px}
+    .page-body{padding-top:21px;flex:1;min-height:0}
+    .page-foot{margin-top:14px;border-top:1px solid var(--line);padding-top:8px;display:flex;justify-content:space-between;align-items:center;font-size:9px;color:var(--muted);letter-spacing:.25px;flex-shrink:0}
+    .page-number{color:var(--navy);font-weight:700;font-variant-numeric:tabular-nums}
+    .eyebrow{margin:0 0 6px;color:var(--teal);font-size:9.5px;font-weight:700;letter-spacing:2.4px;text-transform:uppercase}
+    h1,h2,h3,h4,p{margin:0}h2{font-size:25px;line-height:1.4;letter-spacing:.5px;color:var(--navy);font-weight:700;margin-bottom:10px}
+    .intro{color:var(--muted);font-size:11px;line-height:1.85;margin-bottom:20px;max-width:96%}
+    h3{font-size:14px;line-height:1.6;margin:18px 0 8px;color:var(--navy);font-weight:700;display:flex;align-items:center;gap:8px}
+    h3::before{content:"";display:block;flex:0 0 3px;width:3px;height:13px;background:var(--teal)}
+    h4{font-size:12px;color:var(--navy);margin-bottom:6px}
+    p{font-size:11px;line-height:1.9;margin:0 0 9px}
+    strong{font-weight:700;color:var(--navy)}
+    .lead{font-size:13px;line-height:1.9;color:var(--ink)}
+    .callout{background:var(--mint);border:1px solid #c8e1dc;border-left:3px solid var(--teal);padding:13px 15px;margin:15px 0;border-radius:0 5px 5px 0}
+    .callout p{margin:0}.callout .label{display:block;color:var(--teal);font-size:9px;font-weight:700;letter-spacing:1px;margin-bottom:4px}
+    .note{background:var(--light);border:1px solid var(--line);border-radius:5px;padding:11px 13px;margin-top:13px;color:var(--muted);font-size:10px;line-height:1.9}
+    .note strong{color:var(--navy)}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:13px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:11px}
+    .card{border:1px solid var(--line);border-radius:6px;padding:13px 14px;background:white}
+    .card p{font-size:10.5px;line-height:1.85;margin:0}.card .num{color:var(--teal);font-size:10px;letter-spacing:1px;display:block;margin-bottom:6px;font-weight:700}
+    .small{font-size:10px;color:var(--muted)}
+    ul{padding-left:17px;margin:6px 0 9px;font-size:11px;line-height:1.9}li{margin-bottom:4px}li::marker{color:var(--teal)}
+    .compact{font-size:10.5px;line-height:1.8}.compact li{margin-bottom:3px}
+    table{width:100%;border-collapse:collapse;table-layout:fixed;margin:11px 0 0;font-size:10.3px;line-height:1.8}
+    th{color:var(--navy);font-weight:700;background:var(--light);text-align:left;border-top:2px solid var(--navy);padding:9px 10px;border-bottom:1px solid var(--line)}
+    td{padding:10px;border-bottom:1px solid var(--line);vertical-align:top;overflow-wrap:anywhere}
+    tbody tr:nth-child(even){background:#f9fbfc}td b{display:block;color:var(--navy)}
+    .table-tight td{padding:8px 9px}.table-tight th{padding:8px 9px}
+    .badge{display:inline-block;border:1px solid #bddbd5;border-radius:3px;color:var(--teal);background:var(--mint);padding:0 6px;font-size:9px;white-space:nowrap}
+    .flow{display:flex;align-items:center;gap:5px;margin:18px 0;padding:14px 11px;background:var(--light);border:1px solid var(--line);border-radius:5px}
+    .flow span{flex:1;text-align:center;font-size:10px;line-height:1.6;color:var(--navy);font-weight:700}.flow i{font-style:normal;color:var(--teal);font-size:14px}
+    .caption{text-align:center;font-size:9px;color:var(--muted);margin-top:6px}
+    .toc{display:grid;grid-template-columns:1fr 1fr;column-gap:24px;row-gap:9px;margin-top:12px}
+    .toc a{display:flex;align-items:center;gap:10px;text-decoration:none;font-size:11px;color:var(--ink);padding:5px 0;border-bottom:1px solid var(--line)}
+    .toc em{font-style:normal;color:var(--teal);font-size:10px;font-weight:700}.toc .dots{flex:1}.toc .toc-page{color:var(--muted);font-size:10px}
+    .diagram{border:1px solid var(--line);border-radius:6px;background:#fbfcfd;padding:7px;margin-top:12px}
+    svg{display:block;width:100%;height:auto}svg text{font-family:"Microsoft YaHei","PingFang SC",sans-serif}
+    code{font-family:Consolas,"Courier New",monospace;font-size:.95em;color:var(--navy);overflow-wrap:anywhere}
+    .identity{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin:12px 0 16px}
+    .identity div{background:var(--light);border:1px solid var(--line);border-radius:5px;padding:10px;text-align:center;font-size:10px}.identity code{display:block;margin-bottom:4px;font-size:11px;font-weight:700}
+    .steps{counter-reset:steps}.step{display:grid;grid-template-columns:26px 1fr;gap:10px;border-bottom:1px solid var(--line);padding:10px 0}.step::before{counter-increment:steps;content:counter(steps,decimal-leading-zero);font-size:11px;font-weight:700;color:var(--teal);padding-top:1px}.step p{margin:0;font-size:10.5px}.step h4{margin-bottom:2px}
+    .metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:13px}.metric{background:var(--light);border:1px solid var(--line);border-radius:6px;padding:13px}.metric .value{font-size:25px;font-weight:700;color:var(--navy);line-height:1.3}.metric .name{font-size:10px;color:var(--teal);font-weight:700;margin-top:5px}.metric .context{font-size:9px;color:var(--muted);margin-top:4px}
+    .sources{list-style:none;padding:0;margin:8px 0}.sources li{display:grid;grid-template-columns:22px 1fr;gap:8px;border-bottom:1px solid var(--line);padding:8px 0;margin:0}.sources .ref{font-size:10px;color:var(--teal);font-weight:700}.sources a{font-size:9px;display:block;overflow-wrap:anywhere;text-decoration:none;line-height:1.8}.sources strong{font-size:10.5px}
+    .cover{padding:0;overflow:hidden}.cover-top{background:var(--navy);color:white;padding:22mm 17mm 17mm;height:167mm;position:relative;border-bottom:3px solid var(--teal)}
+    .cover-top::after{content:"";position:absolute;right:-40mm;top:31mm;width:120mm;height:120mm;border:1px solid #ffffff18;border-radius:50%;box-shadow:0 0 0 24mm #ffffff03,0 0 0 48mm #ffffff03;pointer-events:none}
+    .cover-brand{letter-spacing:3px;font-size:13px;color:#c4d8e1;margin-bottom:35mm}.cover-overline{font-size:11px;letter-spacing:2.5px;color:#99cbd0;margin-bottom:10px}
+    .cover h1{font-size:42px;line-height:1.4;letter-spacing:3px;font-weight:700;position:relative;z-index:1;margin-bottom:14px}
+    .cover-subtitle{font-size:17px;color:#d2e3eb;line-height:1.9;letter-spacing:1px}.cover-line{height:3px;width:50px;background:var(--gold);margin:26px 0 15px}
+    .cover-caption{font-size:11px;color:#b2cedb;letter-spacing:1px}
+    .cover-bottom{padding:15mm 17mm 12mm;display:flex;flex-direction:column;flex:1}
+    .cover-statement{font-size:16px;line-height:1.85;color:var(--navy);font-weight:700;margin-bottom:22px}
+    .cover-tags{display:flex;flex-wrap:wrap;gap:8px}.cover-tags span{font-size:10px;border:1px solid var(--line);padding:5px 10px;border-radius:4px;color:var(--muted)}
+    .cover-meta{margin-top:auto;display:grid;grid-template-columns:1.25fr 1fr 1fr;gap:12px;border-top:1px solid var(--line);padding-top:14px}.cover-meta .k{font-size:9px;color:var(--muted);display:block;margin-bottom:5px}.cover-meta .v{font-size:11px;color:var(--navy);font-weight:700}
+    .closing{margin-top:16px;border-top:2px solid var(--navy);padding-top:12px;color:var(--navy);font-size:12px;font-weight:700;line-height:1.8}
+    @page{size:A4 portrait;margin:0}
+    @media print{
+      html,body{margin:0;padding:0;background:white;scroll-behavior:auto;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+      .toolbar{display:none!important}.report{margin:0;padding:0}
+      .sheet{margin:0;width:210mm;height:297mm;box-shadow:none;break-after:page;page-break-after:always}
+      .sheet:last-child{break-after:auto;page-break-after:auto}
+      table,figure,.card,.note,.callout,.diagram,.metrics,.identity,.step{break-inside:avoid;page-break-inside:avoid}
+      h2,h3,h4{break-after:avoid;page-break-after:avoid}a{color:inherit;text-decoration:none}
+    }
+    @media screen and (max-width:820px){
+      .toolbar-inner{padding:10px 14px}.toolbar-note{font-size:11px;max-width:250px}.toolbar-title{font-size:12px}.toolbar button{font-size:12px;padding:9px 12px}
+      .report{padding:15px 10px}.sheet{width:100%;height:auto;min-height:0;padding:23px 22px;margin-bottom:18px}.page-body{padding-top:18px}.page-foot{margin-top:25px}h2{font-size:23px}
+      .cover{padding:0}.cover-top{height:auto;min-height:380px;padding:35px 28px}.cover-brand{margin-bottom:65px}.cover h1{font-size:34px}.cover-bottom{padding:26px 28px;min-height:280px}.cover-statement{font-size:14px}.cover-meta{margin-top:35px}
+      .grid3{grid-template-columns:1fr}.toc{column-gap:15px}.diagram{padding:3px}table{font-size:9.5px}.identity{gap:5px}.identity div{padding:8px 3px}.identity code{font-size:9px}
+    }
+    @media screen and (max-width:520px){.grid2,.toc{grid-template-columns:1fr}.page-head{font-size:8px;letter-spacing:0}.brand{font-size:10px}.flow{gap:3px;padding:10px 5px}.flow span{font-size:8px}.cover-meta{grid-template-columns:1fr 1fr}.cover-meta>div:first-child{grid-column:1/-1}.metrics{gap:6px}.metric{padding:9px}.metric .value{font-size:21px}}
+  </style>
+</head>
+<body>
+  <div class="toolbar" role="region" aria-label="文档工具栏">
+    <div class="toolbar-inner">
+      <div><div class="toolbar-title">川江网站技术栈 · 技术决策报告</div><div class="toolbar-note">保存 PDF：A4 · 缩放 100% · 开启背景图形 · 关闭浏览器页眉页脚</div></div>
+      <button type="button" id="print-button">打印 / 保存 PDF</button>
+    </div>
+  </div>
+  <main class="report">
+
+    <section class="sheet cover" id="cover" aria-label="封面，第 1 页">
+      <div class="cover-top">
+        <div class="cover-brand">川江网站 / CHUANJIANG</div>
+        <div class="cover-overline">TECHNOLOGY STACK · DECISION REPORT</div>
+        <h1>川江网站<br>技术栈决策报告</h1>
+        <div class="cover-subtitle">面向国内企业的软件开发服务门户</div>
+        <div class="cover-line"></div>
+        <div class="cover-caption">搜索增长 · AI 售前 · 访客归因 · 销售闭环</div>
+      </div>
+      <div class="cover-bottom">
+        <div class="cover-statement">从搜索曝光到项目签约，<br>建设可运营、可追溯、可衡量的网站。</div>
+        <div class="cover-tags"><span>Astro + React</span><span>Payload 自托管</span><span>PostgreSQL + pgvector</span><span>阿里云国内部署</span></div>
+        <div class="cover-meta">
+          <div><span class="k">文件用途</span><span class="v">产品规划与研发实施依据</span></div>
+          <div><span class="k">决策日期</span><span class="v">2026 年 10 月 14 日</span></div>
+          <div><span class="k">文档版本</span><span class="v">V1.0 · 技术决策版</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sheet" id="summary" aria-label="决策摘要，第 2 页">
+      <header class="page-head"><span class="brand">川江网站</span><span>技术栈决策报告 / V1.0</span></header>
+      <div class="page-body">
+        <div class="eyebrow">01 / Executive Decision</div><h2>决策摘要与业务目标</h2>
+        <p class="intro">业主为国内科技企业，主营软件开发；网站面向国内企业客户，承担搜索获客、技术售前、需求收集与销售转化。</p>
+        <p class="lead">采用 <strong>Astro + React 岛屿、Payload 自托管、PostgreSQL / pgvector、阿里云百炼</strong>，整体部署在国内阿里云。首期采用模块化单体业务设计，门户、管理后台和异步任务分别运行。</p>
+        <div class="flow" aria-label="业务转化链路"><span>搜索曝光</span><i>→</i><span>有效访问</span><i>→</i><span>内容信任</span><i>→</i><span>技术咨询</span><i>→</i><span>有效线索</span><i>→</i><span>商机签约</span></div>
+        <div class="grid2">
+          <div class="card"><span class="num">目标 01</span><h4>增加被发现的机会</h4><p>建设服务、行业方案、案例与技术问答页面，提升相关搜索曝光、自然点击和品牌搜索。</p></div>
+          <div class="card"><span class="num">目标 02</span><h4>提高技术售前效率</h4><p>AI 基于审核资料回答问题、提供引用、澄清需求，并将问题与摘要交接给销售。</p></div>
+          <div class="card"><span class="num">目标 03</span><h4>回答“谁来、怎么来”</h4><p>记录匿名访问、来源、落地页、内容轨迹和咨询；留资后关联联系人与企业信息。</p></div>
+          <div class="card"><span class="num">目标 04</span><h4>回答“结果如何”</h4><p>把有效线索、预约、跟进、报价、签约与流失回传，分析渠道和内容的业务价值。</p></div>
+        </div>
+        <div class="callout"><span class="label">建设原则</span><p>静态内容优先、业务事实由服务端确认、AI 回答有依据、转化结果可追溯。AI 服务暂时不可用时，公共内容、联系方式和普通表单仍应正常工作。</p></div>
+        <h3>报告索引</h3>
+        <nav class="toc" aria-label="报告目录">
+          <a href="#architecture"><em>02</em>总体架构与应用边界<span class="dots"></span><span class="toc-page">03</span></a>
+          <a href="#frontend"><em>03</em>前端、内容与接口选型<span class="dots"></span><span class="toc-page">04</span></a>
+          <a href="#data"><em>04</em>数据、检索与 AI 选型<span class="dots"></span><span class="toc-page">05</span></a>
+          <a href="#growth"><em>05</em>搜索增长与经营数据闭环<span class="dots"></span><span class="toc-page">06</span></a>
+          <a href="#workflows"><em>06</em>发布、问答与转化流程<span class="dots"></span><span class="toc-page">07</span></a>
+          <a href="#operations"><em>07</em>国内部署与运行保障<span class="dots"></span><span class="toc-page">08</span></a>
+          <a href="#delivery"><em>08</em>实施范围与验收标准<span class="dots"></span><span class="toc-page">09</span></a>
+          <a href="#references"><em>09</em>实施条件与官方参考<span class="dots"></span><span class="toc-page">10</span></a>
+        </nav>
+      </div>
+      <footer class="page-foot"><span>国内软件开发服务门户 · 技术决策</span><span class="page-number">02 / 10</span></footer>
+    </section>
+
+    <section class="sheet" id="architecture" aria-label="总体架构，第 3 页">
+      <header class="page-head"><span class="brand">川江网站</span><span>架构设计 / 内容与业务分层</span></header>
+      <div class="page-body">
+        <div class="eyebrow">02 / Architecture</div><h2>总体架构与应用边界</h2>
+        <p class="intro">内容访问由静态页面与 CDN 承担；咨询、转化和数据采集进入服务端；异步任务执行发布、索引和销售系统同步。</p>
+        <div class="diagram">
+          <svg viewBox="0 0 680 402" role="img" aria-labelledby="architecture-title architecture-desc">
+            <title id="architecture-title">川江网站逻辑架构</title><desc id="architecture-desc">国内搜索、广告和分享进入 CDN 与 Astro 门户；浏览器连接事件、AI 和业务接口；接口连接业务数据库与百炼模型；Payload 管理内容；后台任务同步索引与 CRM；经营分析合并访问和成交结果。</desc>
+            <defs><marker id="arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0L7 3.5L0 7Z" fill="#087e85"/></marker></defs>
+            <g fill="none" stroke="#087e85" stroke-width="1.6" marker-end="url(#arrow)">
+              <path d="M180 43H231"/><path d="M399 43H450"/><path d="M550 68V92H119V112"/><path d="M550 92H334V112"/><path d="M550 92H550V112"/>
+              <path d="M119 162V213"/><path d="M334 162V191H195V213"/><path d="M419 137H448"/>
+              <path d="M640 141H654V239H592"/><path d="M280 239H321"/>
+              <path d="M479 265V305"/><path d="M414 331H274"/>
+              <path d="M85 306V265"/><path d="M197 306V285H479V265"/>
+            </g>
+            <g font-size="11" fill="#586a77"><text x="247" y="181">混合检索与引用</text><text x="493" y="300">异步重试</text><text x="289" y="321">结果回传</text><text x="94" y="295">索引</text><text x="278" y="278">发布 / 索引 / CRM 任务</text></g>
+            <g stroke="#dbe4e9" fill="#f1f6f8"><rect x="20" y="18" width="160" height="50" rx="6"/><rect x="231" y="18" width="168" height="50" rx="6"/><rect x="450" y="18" width="190" height="50" rx="6"/></g>
+            <g stroke="#bcdad6" fill="#eaf5f3"><rect x="20" y="112" width="198" height="50" rx="6"/><rect x="235" y="112" width="184" height="50" rx="6"/><rect x="450" y="112" width="190" height="50" rx="6"/></g>
+            <g stroke="#dbe4e9" fill="white"><rect x="20" y="213" width="260" height="52" rx="6"/><rect x="321" y="213" width="271" height="52" rx="6"/><rect x="20" y="306" width="254" height="50" rx="6"/><rect x="414" y="306" width="226" height="50" rx="6"/></g>
+            <g text-anchor="middle" fill="#12394e" font-size="13" font-weight="700"><text x="100" y="40">搜索 / 广告 / 分享</text><text x="315" y="40">国内 CDN</text><text x="545" y="40">Astro 内容门户</text><text x="119" y="135">第一方事件采集</text><text x="327" y="135">AI 问答接口</text><text x="545" y="135">表单 / 预约 / 业务 API</text><text x="150" y="236">业务 PostgreSQL + pgvector</text><text x="456" y="236">Redis / BullMQ / Worker</text><text x="147" y="329">Payload 内容与管理后台</text><text x="527" y="329">CRM / 内置商机模块</text></g>
+            <g text-anchor="middle" fill="#586a77" font-size="10"><text x="100" y="56">来源信息按可获取程度记录</text><text x="315" y="56">公共 HTML、图片与文件</text><text x="545" y="56">静态主体 + React 岛屿</text><text x="119" y="151">visitor / session / attribution</text><text x="327" y="151">连接百炼国内模型服务</text><text x="545" y="151">校验、幂等、权限与真实状态</text><text x="150" y="253">访客、会话、知识、线索与商机</text><text x="456" y="253">版本任务、事务发件箱、汇总</text><text x="147" y="345">独立 CMS 数据库、草稿与权限</text><text x="527" y="345">跟进、报价、签约与流失</text></g>
+            <rect x="20" y="375" width="620" height="22" rx="4" fill="#12394e"/><text x="330" y="390" text-anchor="middle" font-size="11" fill="white">经营分析：搜索曝光 → 内容访问 → 有效线索 → 商机 → 签约</text>
+          </svg>
+        </div>
+        <div class="caption">图 1 · 一期逻辑架构，节点表示职责边界，不代表独立微服务。</div>
+        <h3>三个运行单元，共享业务模块</h3>
+        <table class="table-tight"><colgroup><col style="width:21%"><col style="width:31%"><col style="width:48%"></colgroup><thead><tr><th>运行单元</th><th>职责</th><th>共享模块</th></tr></thead><tbody>
+          <tr><td><b>apps/web</b>Astro + Node</td><td>门户、同域事件、搜索、问答、表单与预约接口</td><td rowspan="3"><code>domain</code>：线索、预约、归因规则<br><code>database</code>：业务查询与迁移<br><code>contracts</code>：Zod schema、事件契约<br><code>ai</code>：模型、检索、引用、评估<br><code>integrations</code>：CRM、日历与平台连接<br><code>ui</code>：React 组件和设计令牌</td></tr>
+          <tr><td><b>apps/cms</b>Payload + Next.js</td><td>内容、草稿、版本、角色；扩展线索与分析管理页</td></tr>
+          <tr><td><b>apps/worker</b>Node.js</td><td>页面发布、索引、CRM 同步、数据汇总</td></tr>
+        </tbody></table>
+        <div class="note"><strong>数据边界：</strong>CMS 与业务数据采用独立数据库及账号。Payload 管理自己的表和迁移；业务模块使用 Drizzle / SQL。后台读取业务数据前验证账号角色，浏览器不持有数据库、模型或 CRM 密钥。</div>
+      </div>
+      <footer class="page-foot"><span>静态主体 · 动态服务 · 异步执行</span><span class="page-number">03 / 10</span></footer>
+    </section>
+
+    <section class="sheet" id="frontend" aria-label="前端与内容技术，第 4 页">
+      <header class="page-head"><span class="brand">川江网站</span><span>技术选型 / 门户、内容与接口</span></header>
+      <div class="page-body">
+        <div class="eyebrow">03 / Frontend &amp; Content</div><h2>前端、内容与接口选型</h2>
+        <p class="intro">优先把服务能力和案例完整输出给搜索引擎与访客；交互组件按需加载；编辑团队通过结构化 CMS 持续运营。</p>
+        <table><colgroup><col style="width:18%"><col style="width:31%"><col style="width:51%"></colgroup><thead><tr><th>层级</th><th>确定采用</th><th>选型依据与使用边界</th></tr></thead><tbody>
+          <tr><td><b>开发基础</b></td><td>TypeScript<br>Node.js 24 LTS<br>pnpm workspace</td><td>统一语言与依赖管理，门户、后台和 Worker 共享类型与业务规则；项目初始化锁定版本。</td></tr>
+          <tr><td><b>门户框架</b></td><td>Astro 当前稳定版<br>官方 Node 适配器</td><td>服务、方案、案例、问答直接输出 HTML。静态组件默认不下发客户端 JavaScript。</td></tr>
+          <tr><td><b>交互组件</b></td><td>React 岛屿</td><td>搜索、聊天、表单、预约和图表按需加载。核心正文无需等待 AI 或客户端请求。</td></tr>
+          <tr><td><b>样式系统</b></td><td>Tailwind CSS v4<br>CSS 设计令牌</td><td>统一字体、颜色、间距和组件；构建时生成样式。上线前核验目标浏览器兼容范围。</td></tr>
+          <tr><td><b>内容管理</b></td><td>Payload 3 自托管<br>兼容的 Next.js 运行时</td><td>结构化内容、草稿、版本和角色权限；扩展审批与发布状态。后台 Next.js 不改变 Astro 门户选型。</td></tr>
+          <tr><td><b>渲染策略</b></td><td>SSG 为主<br>按需 SSR + CDN</td><td>公共页面静态生成。预览和少量实时内容按需服务端渲染，发布触发构建与缓存更新。</td></tr>
+          <tr><td><b>业务接口</b></td><td>Astro API Endpoints<br>Zod + SSE</td><td>Zod 校验请求与结构化结果，SSE 提供问答流。普通表单可按需使用 Astro Actions。</td></tr>
+        </tbody></table>
+        <h3>CMS 内容模型</h3>
+        <div class="grid3">
+          <div class="card"><h4>服务与方案</h4><p>服务范围、适用行业、交付流程、技术约束、FAQ、关联案例与 CTA。</p></div>
+          <div class="card"><h4>案例与技术资料</h4><p>客户问题、实施范围、技术路径、可公开结果、白皮书与文档引用。</p></div>
+          <div class="card"><h4>发布与 SEO 字段</h4><p>标题、摘要、URL、规范链接、审核状态、发布日期与相关内容。</p></div>
+        </div>
+        <div class="callout"><span class="label">明确取舍</span><p>多团队发布依靠 CMS 权限、模型和审批流程；一期无需 Module Federation。RAG 是检索与回答流程，不依赖 RSC。国内自托管采用构建与缓存失效机制，不假定拥有 Vercel 的 ISR 能力。</p></div>
+      </div>
+      <footer class="page-foot"><span>Astro 门户 + Payload 管理后台</span><span class="page-number">04 / 10</span></footer>
+    </section>
+
+    <section class="sheet" id="data" aria-label="数据与 AI 技术，第 5 页">
+      <header class="page-head"><span class="brand">川江网站</span><span>技术选型 / 数据、检索与 AI</span></header>
+      <div class="page-body">
+        <div class="eyebrow">04 / Data &amp; Intelligence</div><h2>数据、检索与 AI 选型</h2>
+        <p class="intro">在同一业务数据体系中关联知识、访客和销售结果。中文检索采用关键词与向量融合，以真实采购问题验证回答质量。</p>
+        <table><colgroup><col style="width:18%"><col style="width:33%"><col style="width:49%"></colgroup><thead><tr><th>层级</th><th>确定采用</th><th>职责与决策依据</th></tr></thead><tbody>
+          <tr><td><b>数据库</b></td><td>阿里云 RDS PostgreSQL<br>pgvector</td><td>保存访客、事件、会话、线索、商机和知识索引。业务库与 CMS 库独立管理，首期可共享 RDS 实例。</td></tr>
+          <tr><td><b>数据访问</b></td><td>Drizzle ORM<br>SQL migrations</td><td>管理业务表与查询；Payload 使用自身 PostgreSQL 适配器，避免双重管理 CMS 内部表。</td></tr>
+          <tr><td><b>模型服务</b></td><td>阿里云百炼国内地域<br><code>qwen-plus</code>（初选）</td><td>问答和需求摘要，服务端适配层统一调用；开通后核验地域可用性、流式能力、效果及成本。</td></tr>
+          <tr><td><b>知识向量</b></td><td><code>text-embedding-v4</code><br>（初选）</td><td>为审核文档分块生成向量。固定模型及维度；模型或维度变更必须重建索引。</td></tr>
+          <tr><td><b>混合检索</b></td><td>中文分词与业务词典<br>关键词索引 + pgvector<br>RRF 融合排序</td><td>支持服务名称、MES / ERP 等缩写及自然语言语义。中文检索需显式实现与验证，不能依赖默认配置。</td></tr>
+          <tr><td><b>任务与缓存</b></td><td>Redis + BullMQ<br>PostgreSQL 事务发件箱</td><td>索引、发布、CRM 同步和汇总异步执行。数据库事务保证记录与待处理任务一致，Worker 负责重试。</td></tr>
+          <tr><td><b>文件存储</b></td><td>阿里云 OSS<br>国内 CDN</td><td>图片、白皮书、文档与简历。公开文件可缓存；私有文件通过受控访问提供。</td></tr>
+        </tbody></table>
+        <h3>知识与业务事实各有来源</h3>
+        <div class="grid2">
+          <div class="card"><h4>知识资料 → RAG</h4><p>检索已审核、已发布、可公开的服务能力、案例和说明。每个分块包含文档编号、版本、章节、来源 URL 与更新时间。</p></div>
+          <div class="card"><h4>实时状态 → 业务 API</h4><p>预约时段、提交状态、报价和项目状态通过业务接口确认。模型不能替代真实数据库，也不自行承诺价格、周期与兼容性。</p></div>
+        </div>
+        <div class="note"><strong>依赖锁定：</strong>初始化核验 Astro、Payload、Next.js、React 与 Node 的兼容组合，并写入锁文件。云账号配置时确认 RDS / pgvector 支持组合和模型地域；明确预算后选择实例规格。</div>
+      </div>
+      <footer class="page-foot"><span>业务事务 + 中文混合检索 + 可追溯引用</span><span class="page-number">05 / 10</span></footer>
+    </section>
+
+    <section class="sheet" id="growth" aria-label="搜索与经营数据，第 6 页">
+      <header class="page-head"><span class="brand">川江网站</span><span>经营闭环 / 来源、行为与结果</span></header>
+      <div class="page-body">
+        <div class="eyebrow">05 / Search &amp; Attribution</div><h2>搜索增长与经营数据闭环</h2>
+        <p class="intro">搜索增长与销售闭环并列为核心目标。曝光来自搜索平台、访问来自第一方采集、成交来自业务系统，三类数据关联分析。</p>
+        <div class="identity"><div><code>visitor_id</code>匿名访客</div><div><code>session_id</code>本次访问</div><div><code>lead_id</code>留资与线索</div><div><code>opportunity_id</code>商机与结果</div></div>
+        <table class="table-tight"><colgroup><col style="width:18%"><col style="width:44%"><col style="width:38%"></colgroup><thead><tr><th>必须回答</th><th>后台展示</th><th>数据边界</th></tr></thead><tbody>
+          <tr><td><b>谁来过？</b></td><td>匿名编号、访问时间、页面轨迹、咨询主题；留资后的联系人与公司</td><td>匿名编号不等于实名。公司与联系人由留资、登录或人工确认识别。</td></tr>
+          <tr><td><b>怎么来的？</b></td><td>首次、本次、转化前来源；落地页、推广活动、referrer</td><td>自然搜索词经常无法获取；无来源时标为“直接或未知”。</td></tr>
+          <tr><td><b>结果如何？</b></td><td>有效线索、预约、跟进、需求确认、报价、签约金额、流失原因</td><td>前端点击是意图；服务端或 CRM 成功记录才是业务成果。</td></tr>
+        </tbody></table>
+        <h3>搜索内容建设</h3>
+        <div class="grid2">
+          <div class="card"><h4>服务与采购问题</h4><p>围绕企业软件定制、系统集成、私有化部署、开发周期和验收等需求建设独立页面，依据企业真实能力选题。</p></div>
+          <div class="card"><h4>案例与决策证据</h4><p>解释问题、实施范围、约束与结果；服务页、案例和问答互相连接，给客户具体的判断依据。</p></div>
+        </div>
+        <h3>采集与归因实现</h3>
+        <ul class="compact">
+          <li>浏览器向同域接口发送页面及交互事件，CDN 缓存命中后仍可记录访问；记录唯一 <code>event_id</code>，服务端校验并去重。</li>
+          <li>保留首次接触和转化前接触来源。留资后关联本浏览器历史；跨设备只有在明确身份验证后才合并。</li>
+          <li>线索、预约、报价、签约由业务服务或 CRM 回传；采集缺失、爬虫及异常流量在报告中注明。</li>
+          <li>原始事件按配置周期清理，长期分析使用汇总；联系人和对话记录按角色限制访问。</li>
+        </ul>
+        <h3>后台核心指标</h3>
+        <div class="flow"><span>展现 / 点击</span><i>→</i><span>有效访问</span><i>→</i><span>有效线索率</span><i>→</i><span>商机率</span><i>→</i><span>签约 / 金额</span></div>
+        <div class="note">Sitemap、URL 提交和站长平台用于发现与监测，不保证收录或排名。平台指标注明时间、渠道和更新时间；获客成本需有实际渠道投入数据，归因关系不直接证明因果贡献。</div>
+      </div>
+      <footer class="page-foot"><span>曝光 × 访问 × CRM 结果</span><span class="page-number">06 / 10</span></footer>
+    </section>
+
+    <section class="sheet" id="workflows" aria-label="业务流程，第 7 页">
+      <header class="page-head"><span class="brand">川江网站</span><span>业务流程 / 发布、问答与转化</span></header>
+      <div class="page-body">
+        <div class="eyebrow">06 / Critical Workflows</div><h2>发布、问答与转化流程</h2>
+        <p class="intro">把每一步的输入、执行状态和失败处理定义清楚，保证内容一致、回答有依据、线索不丢失。</p>
+        <h3>A · 内容发布与知识同步</h3>
+        <div class="flow"><span>审核发布</span><i>→</i><span>版本任务</span><i>→</i><span>构建上线</span><i>→</i><span>缓存更新</span><i>→</i><span>知识索引</span></div>
+        <p>后台分别显示 CMS 发布、页面上线、知识索引三个状态。撤回和删除同步清理索引；旧版本任务不能覆盖新版本。首期 SSG 构建时延实测后确定，少量实时页面采用 SSR 与显式缓存失效。</p>
+        <h3>B · AI 售前与需求澄清</h3>
+        <div class="flow"><span>中文问题</span><i>→</i><span>混合检索</span><i>→</i><span>引用回答</span><i>→</i><span>追问澄清</span><i>→</i><span>需求摘要</span></div>
+        <div class="grid2">
+          <div class="card"><h4>回答与图示</h4><p>流式返回回答与来源；不足时说明缺失条件。技术示意图采用受限节点、连线和可信模板，校验后渲染为 SVG / Mermaid。</p></div>
+          <div class="card"><h4>输入与预算</h4><p>限制请求频率、问题长度、会话上下文和模型预算；支持超时、中止。资料作为检索数据，不作为业务操作授权。</p></div>
+        </div>
+        <h3>C · 留资、预约与 CRM 同步</h3>
+        <div class="flow"><span>确认提交</span><i>→</i><span>线索入库</span><i>→</i><span>异步同步</span><i>→</i><span>销售跟进</span><i>→</i><span>结果回传</span></div>
+        <p>表单采用幂等键，事务发件箱与业务记录一起提交；Worker 同步 CRM，使用去重或 upsert，并记录失败和重试。没有外部 CRM 时，由内置线索与商机模块完成跟进、报价和结果记录。</p>
+        <div class="callout"><span class="label">销售交接包</span><p>每条线索包含来源、落地页、关联案例、咨询问题、需求摘要、评分依据和原始引用。邮箱域名只辅助填写公司，由访客确认；具体预约按可用时段与系统成功结果确认。</p></div>
+        <div class="note"><strong>典型旅程：</strong>企业信息负责人搜索“MES 系统定制开发”进入案例页，询问 ERP 对接能力，收到带引用回答后提交需求。销售按来源和问题跟进，报价与签约结果回传到同一条线索。私人对话不会自动公开为 SEO 内容。</div>
+      </div>
+      <footer class="page-foot"><span>版本一致性 · 引用可信度 · 业务幂等</span><span class="page-number">07 / 10</span></footer>
+    </section>
+
+    <section class="sheet" id="operations" aria-label="部署与运维，第 8 页">
+      <header class="page-head"><span class="brand">川江网站</span><span>国内部署 / 可观测与运行保障</span></header>
+      <div class="page-body">
+        <div class="eyebrow">07 / Deployment &amp; Operations</div><h2>国内部署与运行保障</h2>
+        <p class="intro">以阿里云国内资源为默认部署方案。应用与数据尽量就近部署；公共页面走 CDN，个性化和私有响应避免公共缓存。</p>
+        <table class="table-tight"><colgroup><col style="width:22%"><col style="width:33%"><col style="width:45%"></colgroup><thead><tr><th>运行层</th><th>选型</th><th>实施要求</th></tr></thead><tbody>
+          <tr><td><b>公共分发</b></td><td>国内 CDN + HTTPS</td><td>缓存公共 HTML、图片、字体和文件；配置版本资源与页面缓存失效。</td></tr>
+          <tr><td><b>应用运行</b></td><td>北京地域 ECS<br>Docker Compose + Nginx</td><td>web / cms / worker 独立进程。Nginx 对 SSE 关闭不适当缓冲，设置合理超时并验证代理链路。</td></tr>
+          <tr><td><b>托管数据</b></td><td>RDS PostgreSQL<br>托管 Redis + OSS</td><td>连接权限隔离、数据库备份、文件受控访问；核验版本与 pgvector 支持。</td></tr>
+          <tr><td><b>AI 运行</b></td><td>百炼中国内地地域</td><td>地域与账号配套，密钥只在服务端；记录调用耗时、失败、用量和成本。</td></tr>
+          <tr><td><b>交付流水线</b></td><td>国内 Git 托管 + CI Runner<br>容器镜像仓库</td><td>类型检查、业务验证、构建、预览、部署与回滚；保留上一可用镜像。</td></tr>
+          <tr><td><b>运行监控</b></td><td>web-vitals + OpenTelemetry<br>SLS / 云监控</td><td>关联请求、任务与线索编号；监测页面性能、错误、任务积压、索引状态和预算。</td></tr>
+        </tbody></table>
+        <h3>四项运行保障</h3>
+        <div class="grid2">
+          <div class="card"><span class="num">01 / 权限与数据</span><h4>公开、私有与管理权限分开</h4><p>接口校验角色与参数，保留操作记录；用户内容不进入公共缓存；简历、联系人与对话按权限和保留策略处理。</p></div>
+          <div class="card"><span class="num">02 / 发布与回滚</span><h4>代码回滚与数据迁移协同</h4><p>保存上一镜像，迁移向前兼容，测试回滚步骤；不能把代码回滚等同于数据库自动回滚。</p></div>
+          <div class="card"><span class="num">03 / 备份与恢复</span><h4>恢复结果可验证</h4><p>数据库与 OSS 配置备份，并进行恢复验证。数据恢复目标、频率与保留时间按实际业务要求确定。</p></div>
+          <div class="card"><span class="num">04 / 容量与可用性</span><h4>依据实际访问量扩展</h4><p>上线前评估节点故障风险；按业务目标增加多实例。CDN 命中率不能证明动态业务整体高可用。</p></div>
+        </div>
+        <div class="note"><strong>规模与费用：</strong>现阶段不预设实例型号、固定月费和可用性承诺。依据访问量、事件保留周期、AI 使用量和恢复目标配置。边缘函数仅在实测有收益时引入。</div>
+      </div>
+      <footer class="page-foot"><span>国内网络验证 · 可恢复交付 · 按数据扩展</span><span class="page-number">08 / 10</span></footer>
+    </section>
+
+    <section class="sheet" id="delivery" aria-label="实施与验收，第 9 页">
+      <header class="page-head"><span class="brand">川江网站</span><span>实施范围 / 上线验收与演进</span></header>
+      <div class="page-body">
+        <div class="eyebrow">08 / Delivery &amp; Acceptance</div><h2>实施范围与验收标准</h2>
+        <p class="intro">一期同时交付获客基础与数据闭环。智能功能以实际资料和业务流程为边界，二期根据真实访客数据逐步增强。</p>
+        <table class="table-tight"><colgroup><col style="width:15%"><col style="width:27%"><col style="width:58%"></colgroup><thead><tr><th>阶段</th><th>工作包</th><th>可验收交付物</th></tr></thead><tbody>
+          <tr><td><span class="badge">一期</span></td><td><b>内容与搜索</b></td><td>服务、方案、案例、问答；SEO 字段、Sitemap、站长监测；CMS 权限、审批与发布状态。</td></tr>
+          <tr><td><span class="badge">一期</span></td><td><b>访客与转化</b></td><td>第一方事件、来源归因、访客旅程、表单和预约；内置线索与商机；CRM 适配契约与结果回传。</td></tr>
+          <tr><td><span class="badge">一期</span></td><td><b>AI 与运行保障</b></td><td>中文混合检索、带引用问答、需求摘要与受控图示；性能、错误、任务、成本监控及回滚验证。</td></tr>
+          <tr><td>二期</td><td><b>推荐与 Agent</b></td><td>规则推荐与 A/B；能力、资料、预约 API；支持客户端的 WebMCP 适配，不影响普通网页入口。</td></tr>
+          <tr><td>按需</td><td><b>生态与招聘</b></td><td>有 API 产品时提供 OpenAPI 文档、沙盒、密钥与用量；按招聘规模提供匹配建议，人工决策；预留 i18n。</td></tr>
+        </tbody></table>
+        <h3>端到端业务验收</h3>
+        <div class="grid3">
+          <div class="card"><h4>搜索 → 留资</h4><p>HTML 正文、落地来源、事件关联、有效线索、重复提交与访问权限。</p></div>
+          <div class="card"><h4>问答 → 预约</h4><p>中文召回、引用支撑、无资料处理、摘要、预算和预约真实状态。</p></div>
+          <div class="card"><h4>线索 → 结果</h4><p>CRM 失败重试、跟进、报价、签约 / 流失回传及来源报告。</p></div>
+        </div>
+        <h3>页面性能基础目标</h3>
+        <div class="metrics"><div class="metric"><div class="value">≤ 2.5s</div><div class="name">LCP · 最大内容绘制</div><div class="context">国内真实用户 p75</div></div><div class="metric"><div class="value">≤ 200ms</div><div class="name">INP · 交互响应</div><div class="context">国内真实用户 p75</div></div><div class="metric"><div class="value">≤ 0.1</div><div class="name">CLS · 累积布局偏移</div><div class="context">国内真实用户 p75</div></div></div>
+        <div class="note">0.8 秒 LCP 为特定条件下的挑战目标，不是所有用户的保证。p75 表示第 75 百分位；上线后说明样本、设备与网络。搜索增长、咨询效率和签约改善以基线及后续数据评估，不作技术栈直接保证。</div>
+        <h3>演进条件</h3>
+        <ul class="compact"><li>事件查询变慢：增加分区与汇总，必要时引入分析存储。</li><li>内容和检索需求增长：评估独立搜索或重排模型；复杂登录工作台成为主体时重新评估前端组织。</li><li>多个独立应用和团队出现不同发布周期：再评估微前端；有足够数据后再开展个性化实验。</li></ul>
+      </div>
+      <footer class="page-foot"><span>功能可验收 · 指标有样本 · 演进有触发条件</span><span class="page-number">09 / 10</span></footer>
+    </section>
+
+    <section class="sheet" id="references" aria-label="实施条件与参考，第 10 页">
+      <header class="page-head"><span class="brand">川江网站</span><span>实施条件 / 依据与版本管理</span></header>
+      <div class="page-body">
+        <div class="eyebrow">09 / Implementation Notes</div><h2>实施条件与官方参考</h2>
+        <p class="intro">本报告固化总体选型。产品版本、云账号、模型及业务系统参数在初始化与接入阶段验证，不把尚未测试的能力写成已部署结果。</p>
+        <h3>待落实配置</h3>
+        <div class="grid2">
+          <div class="card"><h4>业务与内容</h4><p>企业服务范围、真实案例与可公开资料；现有 CRM、日历系统和负责人；线索评分规则、销售阶段及权限。</p></div>
+          <div class="card"><h4>账号与运行</h4><p>国内域名与备案、阿里云账号、站长平台账号；访问规模、AI 预算、数据保留策略和恢复目标。</p></div>
+        </div>
+        <div class="note"><strong>版本策略：</strong>初始化锁定具体依赖与容器版本，遵循 Payload 的 Next.js / React 兼容要求。初选模型需核验国内地域、效果、成本和流式响应；数据库需核验 pgvector。WebMCP 为社区草案，按实施时客户端支持情况适配；未指定协议的 WebSkill 不作为一期依赖。</div>
+        <h3>官方参考资料</h3>
+        <ol class="sources">
+          <li><span class="ref">01</span><div><strong>Astro 岛屿架构</strong><a href="https://docs.astro.build/en/concepts/islands/">https://docs.astro.build/en/concepts/islands/</a></div></li>
+          <li><span class="ref">02</span><div><strong>Astro Node 自托管与 React 集成</strong><a href="https://docs.astro.build/en/guides/integrations-guide/node/">https://docs.astro.build/en/guides/integrations-guide/node/</a><a href="https://docs.astro.build/en/guides/integrations-guide/react/">https://docs.astro.build/en/guides/integrations-guide/react/</a></div></li>
+          <li><span class="ref">03</span><div><strong>Payload 部署与访问控制</strong><a href="https://payloadcms.com/docs/production/deployment">https://payloadcms.com/docs/production/deployment</a><a href="https://payloadcms.com/docs/access-control/overview">https://payloadcms.com/docs/access-control/overview</a></div></li>
+          <li><span class="ref">04</span><div><strong>Tailwind CSS v4 浏览器兼容范围</strong><a href="https://tailwindcss.com/docs/compatibility">https://tailwindcss.com/docs/compatibility</a></div></li>
+          <li><span class="ref">05</span><div><strong>阿里云百炼嵌入调用说明</strong><a href="https://help.aliyun.com/zh/model-studio/embedding">https://help.aliyun.com/zh/model-studio/embedding</a></div></li>
+          <li><span class="ref">06</span><div><strong>WebMCP 社区草案</strong><a href="https://webmachinelearning.github.io/webmcp/">https://webmachinelearning.github.io/webmcp/</a></div></li>
+          <li><span class="ref">07</span><div><strong>Core Web Vitals 指标与评估</strong><a href="https://web.dev/articles/vitals">https://web.dev/articles/vitals</a></div></li>
+        </ol>
+        <div class="closing">技术栈已确定：先打通搜索获客与销售闭环，再依据真实业务数据扩展智能能力。</div>
+        <p class="small" style="margin-top:10px">来源文件：技术栈决策.md。本报告为决策及实施依据，尚未开展云资源采购、生产部署或容量压测。版本：V1.0 / 2026-10-14。</p>
+      </div>
+      <footer class="page-foot"><span>川江网站技术栈决策报告 · 文档结束</span><span class="page-number">10 / 10</span></footer>
+    </section>
+  </main>
+  <script>
+    document.getElementById('print-button').addEventListener('click', function () { window.print(); });
+  </script>
+</body>
+</html>

@@ -1,0 +1,256 @@
+/* Transparent source marks, jade optics and precise connections share the V1 palette. */
+.intelligence-map {
+  --map-glint-x: 32%;
+  --map-glint-y: 22%;
+  height: 490px;
+  isolation: isolate;
+}
+.map-ambient {
+  position: absolute;
+  inset: 12% 2% 9%;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(ellipse at 52% 51%, #72b7a81c, #103a3620 38%, transparent 69%);
+}
+.intelligence-map .map-meta {
+  top: 9px;
+  left: 0;
+  right: 0;
+  font-size: 8px;
+  letter-spacing: .12em;
+  color: #9cbbb0;
+}
+.map-meta > span:first-child { display: flex; align-items: center; }
+.map-meta b { box-shadow: 0 0 8px #d8b77735; width: 3px; height: 3px; }
+.intelligence-map .map-flow { overflow: visible; pointer-events: none; }
+.intelligence-map .map-flow path { filter: none; }
+.connection-line { stroke: url(#flowGradient); stroke-width: .85; transition: stroke .35s, stroke-width .35s; }
+.connection-halo { stroke: #a1ddd0; stroke-width: 5; opacity: 0; filter: blur(3px); transition: opacity .35s; }
+.connection-light {
+  stroke: #d4eee1;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-dasharray: 30 970;
+  animation: connection-current 5.6s linear infinite;
+  animation-delay: var(--link-delay);
+  opacity: .75;
+}
+.connection-port circle:first-child { fill: #102b2b; stroke: #8dc3b4; stroke-width: .65; opacity: .6; }
+.connection-port circle:last-child { fill: #c8e6d8; }
+.map-connection.is-active .connection-line { stroke: #b8e6d2; stroke-width: 1.25; }
+.map-connection.is-active .connection-halo { opacity: .17; }
+.map-connection.is-active .connection-light { stroke: #f1dca9; opacity: 1; }
+.map-connection.is-active .connection-port circle:first-child { stroke: #d8b777; opacity: 1; }
+.map-orbits { fill: none; stroke-width: .65; }
+.orbit-hairline { stroke: url(#orbitGradient); }
+.orbit-calibration { stroke: #9fbdaa; stroke-dasharray: .6 7.1; stroke-opacity: .36; }
+.orbit-arc { stroke: #c2b885; stroke-width: 1.05; stroke-dasharray: 48 568; stroke-opacity: .66; }
+.orbit-satellite { fill: #d7c89b; stroke: #eae2c5; stroke-width: .5; }
+.orbit-equator { stroke: url(#orbitGradient); stroke-width: .9; }
+.orbit-equator-back { stroke: #77ac9c; stroke-width: .5; stroke-opacity: .18; }
+.orbit-guides { stroke: #b2cfc1; stroke-opacity: .5; }
+.orbit-rotation { animation: jade-orbit 44s linear infinite; }
+.intelligence-map .map-center {
+  top: 50%;
+  width: 162px;
+  height: 162px;
+  border: 1px solid #a0cdbb66;
+  background:
+    radial-gradient(ellipse at var(--map-glint-x) var(--map-glint-y), #8cc8ab38, transparent 50%),
+    radial-gradient(ellipse at 60% 75%, #0b2222 12%, #153b35 48%, #315f50 83%, #92c4a6 130%);
+  box-shadow: inset 0 2px 3px #e0efd54a, inset 3px 0 12px #b2d7b80e, inset 0 -15px 24px #020e12b3,
+    0 16px 28px #020e125c, 0 1px 1px #020e12, 0 0 64px #8bc1a91a;
+  transition: box-shadow .4s;
+}
+.intelligence-map .map-center::before {
+  inset: 4px;
+  border: 1px solid transparent;
+  border-top-color: #e4efd33b;
+  border-left-color: #bee1ce13;
+  background: linear-gradient(145deg, #e2f2d414, transparent 46%);
+  transform: none;
+}
+.intelligence-map .map-center::after {
+  inset: -6px;
+  border: 1px solid #9ac4b028;
+  box-shadow: 0 0 0 3px #0c242421;
+  transform: none;
+}
+.core-label { color: #a9c5b4; font: 6px/1 var(--mono); letter-spacing: .19em; margin: 1px 0 11px; }
+.intelligence-map .core-symbol { width: 43px; height: 40px; padding: 0; margin: 0 0 10px; filter: drop-shadow(0 2px 3px #02161599); }
+.intelligence-map .map-center strong { font-size: 13px; letter-spacing: .12em; font-weight: 500; color: #e0ebda; }
+.intelligence-map .map-center small { font-size: 8px; margin-top: 6px; color: #a0c5b5; letter-spacing: .12em; }
+.intelligence-map:has(.map-node:is(:hover, :focus-visible)) .map-center { box-shadow: inset 0 2px 3px #e0efd55a, inset 0 -15px 24px #020e12b3, 0 16px 28px #020e125c, 0 0 70px #8bc1a92a; }
+.intelligence-map .map-node {
+  width: 170px;
+  min-height: 79px;
+  padding: 13px 12px;
+  gap: 10px;
+  overflow: hidden;
+  border: 1px solid #83baa44a;
+  border-bottom-color: #71a08f38;
+  border-radius: 8px;
+  background: radial-gradient(ellipse at 12% 0, #7ab79e13, transparent 66%), linear-gradient(125deg, #183b35f2, #0d2828eb 78%);
+  box-shadow: inset 0 1px 0 #d4ead312, inset 0 -1px 0 #031b1c66, 0 12px 24px #020d122e;
+  backdrop-filter: blur(12px);
+  animation: none;
+  transition: border-color .3s, box-shadow .3s, background .3s;
+}
+.intelligence-map .map-node::before {
+  content: "";
+  position: absolute;
+  height: 1px;
+  top: 0;
+  left: 10px;
+  right: 10px;
+  background: linear-gradient(90deg, transparent, #d0e7d34a 22%, #d0e7d313 72%, transparent);
+}
+.intelligence-map .map-node::after {
+  content: "";
+  position: absolute;
+  top: 12px;
+  bottom: 12px;
+  left: 0;
+  width: 1px;
+  background: linear-gradient(transparent, #9fcebc85, transparent);
+  opacity: .3;
+  transition: opacity .3s;
+}
+.intelligence-map .map-node:is(:hover, :focus-visible) {
+  background: radial-gradient(ellipse at 12% 0, #a0d1b521, transparent 66%), linear-gradient(125deg, #20483ef7, #103130f2 78%);
+  border-color: #acccad85;
+  box-shadow: inset 0 1px 0 #e3e9c825, inset 0 -1px 0 #031b1c66, 0 15px 27px #020d1240, 0 0 25px #85c5af0d;
+}
+.intelligence-map .map-node:is(:hover, :focus-visible)::after { opacity: 1; }
+.intelligence-map .node-icon {
+  width: 40px;
+  height: 45px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  overflow: visible;
+}
+.intelligence-map .node-icon img {
+  --mark-tint: ;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: var(--mark-tint) drop-shadow(0 3px 2px #010f1280) drop-shadow(0 0 7px #70c7c023);
+  transition: transform .35s, filter .35s;
+}
+.intelligence-map .node-care .node-icon img {
+  --mark-tint: brightness(0) saturate(100%) invert(82%) sepia(16%) saturate(540%) hue-rotate(104deg) brightness(90%) contrast(86%);
+}
+.intelligence-map .node-city .node-icon img { width: 45px; max-width: none; height: 49px; }
+.intelligence-map .map-node:is(:hover, :focus-visible) .node-icon img { transform: translateY(-2px); filter: var(--mark-tint) drop-shadow(0 5px 3px #010f1299) drop-shadow(0 0 8px #9cdcc132); }
+.intelligence-map .map-node > div { min-width: 0; }
+.node-index { display: block; font: 6px/1.2 var(--mono); color: #8bab9c; letter-spacing: .07em; margin-bottom: 5px; }
+.intelligence-map .map-node strong { font-size: 13px; line-height: 1.3; font-weight: 500; color: #e5ecdc; letter-spacing: .02em; }
+.intelligence-map .map-node small { color: #a8c6b7; font-size: 9px; line-height: 1.5; margin-top: 5px; }
+.intelligence-map .map-node b { margin-left: auto; align-self: center; font-size: 12px; color: #9bc5b3; transition: color .3s, transform .3s; }
+.intelligence-map .map-node:is(:hover, :focus-visible) b { transform: translate(1px, -1px); color: #e5ce9d; }
+.intelligence-map .node-office { top: 17%; left: 0; }
+.intelligence-map .node-care { top: 14%; right: 0; }
+.intelligence-map .node-edu { bottom: 19%; left: 0; }
+.intelligence-map .node-city { bottom: 16%; right: 0; }
+.intelligence-map .map-note { left: 0; right: 0; bottom: 1%; gap: 14px; }
+.intelligence-map .map-note > span { display: block; font: 9px/1.6 var(--sans); color: #a7c7b7; letter-spacing: .07em; }
+.intelligence-map .map-note small { font: 7px var(--mono); color: #8eaa9b; letter-spacing: .1em; }
+.intelligence-map .map-note i { background: linear-gradient(90deg, #8db9a342, #8db9a30c); }
+@keyframes connection-current { from { stroke-dashoffset: 1000; } to { stroke-dashoffset: 0; } }
+@keyframes jade-orbit { to { transform: rotate(360deg); } }
+
+/* The same transparent marks sit directly on the paper surfaces of inner pages. */
+.product-icon, .detail-product-mark, .wb-mark {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 1px;
+}
+.product-filter button img {
+  padding: 0;
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+}
+@media (max-width: 1200px) and (min-width: 741px) {
+  .intelligence-map { height: 430px; }
+  .intelligence-map .map-node { width: 145px; min-height: 72px; padding: 11px 10px; gap: 7px; }
+  .intelligence-map .node-icon { width: 34px; height: 40px; }
+  .intelligence-map .map-node strong { font-size: 12px; }
+  .intelligence-map .map-node small { font-size: 8px; }
+  .intelligence-map .map-center { width: 142px; height: 142px; }
+  .intelligence-map .core-symbol { width: 35px; height: 34px; margin-bottom: 8px; }
+  .intelligence-map .core-label { font-size: 5px; margin-bottom: 9px; }
+  .intelligence-map .map-center strong { font-size: 11px; }
+}
+@media (max-width: 980px) and (min-width: 741px) {
+  .intelligence-map { height: 390px; }
+  .intelligence-map .map-node { width: 126px; padding: 10px 8px; gap: 5px; }
+  .intelligence-map .node-icon { width: 29px; height: 35px; }
+  .intelligence-map .node-city .node-icon img { width: 33px; height: 38px; }
+  .intelligence-map .map-node strong { font-size: 11px; }
+  .intelligence-map .map-node small { font-size: 8px; }
+  .intelligence-map .node-index { font-size: 5px; }
+  .intelligence-map .map-center { width: 124px; height: 124px; }
+  .intelligence-map .core-symbol { width: 29px; height: 30px; }
+  .intelligence-map .map-center small { font-size: 7px; }
+  .intelligence-map .map-note > span { font-size: 8px; }
+  .intelligence-map .map-note small { display: none; }
+  .intelligence-map .node-office { top: 12%; }
+  .intelligence-map .node-care { top: 10%; }
+  .intelligence-map .node-edu { bottom: 12%; }
+  .intelligence-map .node-city { bottom: 10%; }
+}
+@media (max-width: 740px) {
+  .intelligence-map { height: 430px; max-width: 500px; margin-top: 40px; }
+  .intelligence-map .map-node { width: 151px; min-height: 76px; padding: 12px 10px; gap: 8px; }
+  .intelligence-map .node-icon { width: 35px; height: 42px; }
+  .intelligence-map .node-city .node-icon img { width: 40px; height: 45px; }
+  .intelligence-map .map-node strong { font-size: 12px; }
+  .intelligence-map .map-center { width: 146px; height: 146px; }
+  .intelligence-map .core-label { font-size: 5px; margin-bottom: 9px; }
+  .intelligence-map .core-symbol { width: 35px; height: 34px; margin-bottom: 9px; }
+  .intelligence-map .map-center strong { font-size: 12px; }
+  .intelligence-map .map-center small { font-size: 7px; }
+  .intelligence-map .node-office { top: 12%; }
+  .intelligence-map .node-care { top: 10%; }
+  .intelligence-map .node-edu { bottom: 12%; }
+  .intelligence-map .node-city { bottom: 10%; }
+  .intelligence-map .map-note > span { font-size: 9px; }
+}
+@media (max-width: 440px) {
+  .intelligence-map { height: 382px; }
+  .intelligence-map .map-meta { font-size: 6px; letter-spacing: .08em; }
+  .intelligence-map .map-node { width: 134px; min-height: 72px; padding: 10px 8px; gap: 5px; }
+  .intelligence-map .node-icon { width: 32px; height: 38px; }
+  .intelligence-map .node-city .node-icon img { width: 36px; height: 41px; }
+  .intelligence-map .node-index { font-size: 5px; }
+  .intelligence-map .map-node strong { font-size: 12px; }
+  .intelligence-map .map-node small { font-size: 8px; margin-top: 4px; }
+  .intelligence-map .map-node b { font-size: 10px; }
+  .intelligence-map .map-center { width: 118px; height: 118px; }
+  .intelligence-map .core-label { margin-bottom: 8px; font-size: 4.5px; }
+  .intelligence-map .core-symbol { width: 29px; height: 28px; margin-bottom: 7px; }
+  .intelligence-map .map-center strong { font-size: 10px; }
+  .intelligence-map .map-center small { font-size: 6px; margin-top: 5px; }
+  .intelligence-map .map-note { gap: 8px; }
+  .intelligence-map .map-note > span { font-size: 8px; }
+  .intelligence-map .map-note small { font-size: 6px; }
+}
+@media (max-width: 360px) {
+  .intelligence-map .map-node { width: 121px; padding: 9px 7px; }
+  .intelligence-map .node-icon { width: 27px; height: 34px; }
+  .intelligence-map .node-city .node-icon img { width: 31px; height: 36px; }
+  .intelligence-map .map-node strong { font-size: 11px; }
+  .intelligence-map .map-meta > span:last-child { display: none; }
+  .intelligence-map .map-note small { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .intelligence-map *, .intelligence-map *::before, .intelligence-map *::after { animation: none !important; transition: none !important; }
+  .intelligence-map .node-icon img { transform: none !important; }
+  .connection-light { opacity: 0; }
+}

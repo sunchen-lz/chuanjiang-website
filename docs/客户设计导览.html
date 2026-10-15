@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>四川川江科技研究院｜设计思路与灵感</title>
+  <style>
+    :root{--ink:#102b2b;--deep:#09191b;--teal:#5eaaa1;--gold:#b48c4b;--paper:#f3eddf;--muted:#637b73;--line:#d6d1c2;--serif:Georgia,"Songti SC","Noto Serif SC",serif;--sans:"Microsoft YaHei UI","Microsoft YaHei","PingFang SC",sans-serif;--mono:Consolas,"Cascadia Code","Microsoft YaHei",monospace}*{box-sizing:border-box}html{background:#dfe0d6}body{max-width:1080px;margin:0 auto;background:var(--paper);color:var(--ink);font:15px/1.9 var(--sans);box-shadow:0 0 60px #0c26231c}main{padding:0 78px 82px}.hero{min-height:520px;margin:0 -78px;padding:80px 78px 66px;background:linear-gradient(125deg,#0a1d1f,#183e3c);color:#f3eddf;position:relative;overflow:hidden}.hero:after{content:"知音";position:absolute;right:50px;bottom:-70px;color:#b48c4b18;font:300 280px/1 var(--serif);writing-mode:vertical-rl}.eyebrow{font:11px var(--mono);letter-spacing:.14em;color:#d6b776}.eyebrow span{display:inline-block;width:8px;height:8px;border-radius:50%;background:#d6b776;margin-right:10px}.hero h1{font:500 clamp(46px,7vw,80px)/1.14 var(--serif);letter-spacing:-.07em;margin:58px 0 22px;max-width:720px}.hero h1 em{color:#9cdbd0;font-style:normal}.hero .lead{color:#bcd3c7;font-size:16px;max-width:520px}.hero-meta{display:flex;gap:38px;border-top:1px solid #d6b77655;margin-top:58px;padding-top:17px;color:#93b3a5;font:10px var(--mono);letter-spacing:.08em}.chapter{padding-top:83px;border-bottom:1px solid var(--line);padding-bottom:78px}.chapter:last-child{border-bottom:0}.chapter-label{display:flex;align-items:center;gap:19px;color:var(--gold);font:11px var(--mono);letter-spacing:.12em}.chapter-label b{font-weight:400;color:#6f9587}.chapter h2{font:500 clamp(30px,4vw,47px)/1.25 var(--serif);letter-spacing:-.045em;margin:25px 0 17px}.chapter h2 em{font-style:normal;color:#3c8179}.chapter>p{color:#586f68;max-width:760px}.pull{font:500 29px/1.5 var(--serif);color:var(--teal);max-width:650px;margin:33px 0}.mapping{margin-top:35px;border-top:1px solid var(--line)}.mapping-row{display:grid;grid-template-columns:1fr 1.4fr 1.5fr;padding:19px 0;border-bottom:1px solid var(--line);gap:25px}.mapping-row strong{font-size:14px}.mapping-row strong span{display:block;color:var(--gold);font:10px var(--mono);margin-bottom:5px}.mapping-row p{margin:0;color:var(--muted);font-size:13px}.route{display:grid;grid-template-columns:repeat(4,1fr);gap:11px;margin-top:39px}.route-step{background:#e8e2d3;padding:22px 18px;min-height:165px;position:relative}.route-step:after{content:"↗";position:absolute;right:15px;bottom:14px;color:var(--gold)}.route-step .num{color:var(--gold);font:11px var(--mono)}.route-step h3{font-size:16px;margin:19px 0 5px}.route-step p{color:var(--muted);font-size:12px;line-height:1.7;margin:0}.quote{background:#e1dccb;padding:31px 38px;margin-top:39px;border-left:3px solid var(--gold);font:500 21px/1.7 var(--serif);color:#365e58}.screens{display:grid;grid-template-columns:1.7fr 1fr;gap:15px;align-items:start;margin-top:38px}.screens figure{margin:0}.screens img{width:100%;display:block;border:1px solid #d2cdbf}.screens figcaption{color:#71847d;font:10px var(--mono);margin-top:9px;letter-spacing:.08em}.principles{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin-top:37px}.principle{border-top:2px solid var(--teal);padding-top:15px}.principle h3{margin:0 0 5px;font-size:15px}.principle p{color:var(--muted);font-size:12px;line-height:1.8;margin:0}.review{background:var(--deep);color:#e9e4d4;padding:43px 48px;margin:77px -20px 0}.review h2{color:#9dd7cb;margin-top:0}.review ol{margin:20px 0 0;padding-left:21px;color:#bfd2c7}.review li{padding:4px 0}.footer{padding-top:26px;color:#80978e;font:10px var(--mono);display:flex;justify-content:space-between;gap:20px}.avoid{font-size:12px;color:#6f7e76}.avoid strong{color:#a8764d}@media(max-width:700px){main{padding:0 24px 45px}.hero{margin:0 -24px;padding:55px 24px 45px;min-height:470px}.hero:after{right:-5px;font-size:170px}.hero h1{margin-top:48px}.hero-meta{gap:16px;flex-wrap:wrap}.chapter{padding-top:54px;padding-bottom:54px}.mapping-row{grid-template-columns:1fr;gap:3px}.route{grid-template-columns:1fr 1fr}.screens{grid-template-columns:1fr}.principles{grid-template-columns:1fr}.review{margin:56px 0 0;padding:30px 25px}.footer{display:block}.footer span{display:block;margin-top:8px}}
+    .hero{margin:0}
+    .entry-links{display:flex;gap:25px;margin-top:24px;color:#dfc18c;font-size:13px}
+    .entry-links a{color:inherit}
+    .inspirations{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:32px}
+    .inspiration{background:#e8e2d3;padding:22px 25px;border-top:2px solid var(--teal)}
+    .inspiration span{color:var(--gold);font:10px var(--mono);letter-spacing:.08em}
+    .inspiration h3{font:500 22px var(--serif);margin:13px 0 10px}
+    .inspiration p{margin:0;font-size:13px;color:var(--muted)}
+    .screens{grid-template-columns:1.7fr .8fr}
+    .screens a{display:block}
+    .screens .phone img{height:500px;object-fit:cover;object-position:top}
+    .screens figcaption{line-height:1.7}
+    .palette{display:flex;gap:18px;margin-top:27px;flex-wrap:wrap;font-size:12px;color:var(--muted)}
+    .palette span{display:flex;gap:8px;align-items:center}
+    .palette i{width:22px;height:22px;border:1px solid #cabfa7;background:var(--swatch)}
+    @media(max-width:700px){.hero{margin:0}.screens{grid-template-columns:1fr}.screens .phone{max-width:280px}.inspirations{grid-template-columns:1fr}}
+    @page{size:A4;margin:14mm 15mm 17mm}
+    @media print{
+      html{background:#fff}
+      body{box-shadow:none;max-width:none;background:var(--paper);font-size:12px;print-color-adjust:exact;-webkit-print-color-adjust:exact}
+      main{padding:0 8mm}
+      .hero{margin:0;min-height:245mm;padding:22mm 16mm;break-after:page}
+      .hero h1{font-size:48px;line-height:1.45;margin-top:35mm;max-width:100%}
+      .hero .lead{font-size:13px}
+      .hero-meta{margin-top:30mm;font-size:8px;gap:13px}
+      .entry-links{display:none}
+      .chapter{padding:10mm 0 0;border:0;break-after:page;break-inside:avoid}
+      .chapter:last-of-type{break-after:auto}
+      .chapter h2{font-size:32px;margin:21px 0 18px}
+      .chapter>p{font-size:13px}
+      .pull{font-size:28px;margin:28px 0}
+      .inspirations{grid-template-columns:1fr 1fr;gap:15px;margin-top:30px}
+      .inspiration{padding:20px}
+      .inspiration p{font-size:12px}
+      .mapping-row{grid-template-columns:.7fr 1fr 1.9fr;padding:24px 0}
+      .mapping-row p{font-size:12px}
+      .route{grid-template-columns:1fr 1fr;gap:16px}
+      .route-step{min-height:155px}
+      .screens{grid-template-columns:1.7fr .8fr;gap:16px}
+      .screens .phone img{height:137mm}
+      .principles{grid-template-columns:repeat(3,1fr);margin-top:30px}
+      .review{padding:24px;margin:30px 0 0}
+      .review h2{font-size:25px;margin-top:0}
+      .review ol{font-size:12px}
+      .avoid{font-size:11px;margin-top:25px}
+      .footer{padding-top:20px;font-size:8px}
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <p class="eyebrow"><span></span>四川川江科技研究院　/　DESIGN DIRECTION 2026</p>
+    <h1>高山流水觅知音<br><em>把理解，做成一种能力。</em></h1>
+    <p class="lead">官网首页设计思路与灵感导览<br>一套把传统意象转译为科技产品体验的叙事方案。</p>
+    <div class="hero-meta"><span>CONCEPT / 01</span><span>VISUAL SYSTEM / 02</span><span>EXPERIENCE / 03</span><span>REVIEW / 04</span></div>
+    <nav class="entry-links" aria-label="试看资料"><a href="双击打开试看.html">打开交互试看 ↗</a><a href="设计思路与灵感.pdf">阅读 PDF ↗</a></nav>
+  </header>
+  <main>
+    <section class="chapter">
+      <div class="chapter-label"><b>01</b><span>核心概念 · THE LISTENER</span></div>
+      <h2>访客是伯牙，<em>网站是子期。</em></h2>
+      <p>“高山流水觅知音”最动人的地方，是子期听懂了伯牙琴音里的心意。我们把这层关系放进网站：让访客带着自己的问题到来，再通过语境、意图与交互线索，获得贴近需求的回应。</p>
+      <p class="pull">真正的智能，先从听懂开始。</p>
+      <p>这套框架适合表达 AI 语音、情感计算、企业智能与边缘计算等技术方向。它们可以成为同一个品牌主张的不同侧面：听懂人、听懂业务、听懂现场。当前业务入口用于设计示意，待企业确认。</p>
+      <div class="quote">“知音”成为整站的体验目标。<br><small>视觉、文案与咨询路径，共同传递“我们愿意先理解你”。</small></div>
+    </section>
+    <section class="chapter">
+      <div class="chapter-label"><b>02</b><span>灵感来源 · INSPIRATION</span></div>
+      <h2>从文化里的共鸣，<em>走向技术里的回应。</em></h2>
+      <p>灵感来自四种体验：被理解的关系、山水的空间、琴音的余韵，以及实时计算的反馈。它们共同决定页面的气质与节奏。</p>
+      <div class="inspirations">
+        <article class="inspiration"><span>01 / 知音关系</span><h3>伯牙与子期</h3><p>把“听懂”作为品牌叙事的起点。访客选择一句需求后，页面给出对应回应，建立从表达走向理解的关系。</p></article>
+        <article class="inspiration"><span>02 / 山水空间</span><h3>层次与留白</h3><p>借鉴山水画的远近层次、疏密变化与留白，用粒子和大面积呼吸空间营造沉静、可信的科技气质。</p></article>
+        <article class="inspiration"><span>03 / 古琴余韵</span><h3>克制的回声</h3><p>细线、轻微拨动与渐弱的合成音色呼应琴弦。声音由访客主动开启，互动反馈保持轻盈。</p></article>
+        <article class="inspiration"><span>04 / 实时信号</span><h3>声波与粒子</h3><p>以声波、涟漪和粒子的即时变化呈现感知能力，让鼠标移动与本地音量都能在山水里留下回声。</p></article>
+      </div>
+      <div class="quote">“川江”本身就带着流动的联想。<br><small>山的稳定与水的流动相互呼应，让名称、视觉与“理解”的主张形成连接。</small></div>
+    </section>
+    <section class="chapter">
+      <div class="chapter-label"><b>03</b><span>意象转译 · VISUAL TRANSLATION</span></div>
+      <h2>让传统意象，<em>成为交互系统。</em></h2>
+      <p>山与水由程序实时绘制。用户停留时，它们缓慢呼吸；用户移动、发声或选择需求时，它们产生可见回应。意象与行为共同构成科技感。</p>
+      <div class="mapping">
+        <div class="mapping-row"><strong><span>TRADITION</span>高山</strong><p>层叠、沉静、留白</p><p>粒子山峦随滚动改变层次，表达技术能力的深度与稳定。</p></div>
+        <div class="mapping-row"><strong><span>TRADITION</span>流水</strong><p>流动、感知、回应</p><p>实时水纹叠加鼠标涟漪与本地音量变化，呈现信息流动的感受。</p></div>
+        <div class="mapping-row"><strong><span>TRADITION</span>琴弦</strong><p>克制、秩序、余韵</p><p>导航下方的细线与关键 CTA 像琴弦，悬停时拨动，声音默认保持安静。</p></div>
+        <div class="mapping-row"><strong><span>TRADITION</span>知音</strong><p>理解、合流、笃定</p><p>选择一句需求后，山水色彩和光点合流，回应文案同步更新。</p></div>
+      </div>
+    </section>
+    <section class="chapter">
+      <div class="chapter-label"><b>04</b><span>浏览路径 · EXPERIENCE ARC</span></div>
+      <h2>从被吸引，到被听见，<em>再到愿意开口。</em></h2>
+      <p>整站安排了一段从感受到理解的体验：先建立印象，再找到与自己有关的入口，随后得到回应，最后整理需求。</p>
+      <div class="route">
+        <div class="route-step"><span class="num">01 / ARRIVE</span><h3>听见山水</h3><p>动态山峦与一句主张建立第一印象：这里有技术，也有理解人的能力。</p></div>
+        <div class="route-step"><span class="num">02 / RECOGNIZE</span><h3>看见自己</h3><p>三个未完成的问题，让不同阶段的企业都能找到自己的入口。</p></div>
+        <div class="route-step"><span class="num">03 / RESPOND</span><h3>得到回应</h3><p>预设示例给出对应方向；能力卡片补充说明，让下一步变得具体。</p></div>
+        <div class="route-step"><span class="num">04 / CONTINUE</span><h3>留下想法</h3><p>需求摘要可复制或下载，把一次浏览变成下一次真实对话的起点。</p></div>
+      </div>
+      <div class="quote">“你不必把问题说得很完整。”<br><small>这句话引导访客先表达，再逐步把问题说清楚。</small></div>
+    </section>
+    <section class="chapter">
+      <div class="chapter-label"><b>05</b><span>界面预览 · VISUAL PREVIEW</span></div>
+      <h2>科技的精确，<em>传统的气韵。</em></h2>
+      <p>深青墨色承接夜山，暖金强调琴弦与方向，浅米色承担阅读与留白。桌面端让山水展开，手机端让内容收束，保持同一套叙事节奏。</p>
+      <div class="palette"><span><i style="--swatch:#09191b"></i>深青墨色 · 沉静</span><span><i style="--swatch:#b48c4b"></i>暖金 · 共鸣</span><span><i style="--swatch:#5eaaa1"></i>水青 · 流动</span><span><i style="--swatch:#f3eddf"></i>浅米 · 留白</span></div>
+      <div class="screens"><figure><a href="预览截图/电脑端.png"><img src="预览截图/电脑端.png" alt="电脑端首页预览"></a><figcaption>DESKTOP / 粒子山峦与聆听卡片</figcaption></figure><figure class="phone"><a href="预览截图/手机端.png"><img src="预览截图/手机端.png" alt="手机端首屏预览"></a><figcaption>MOBILE / 首屏节选<br>完整截图见试看包“预览截图”文件夹。</figcaption></figure></div>
+    </section>
+    <section class="chapter">
+      <div class="chapter-label"><b>06</b><span>设计原则 · PRINCIPLES</span></div>
+      <h2>让每一个细节，<em>都指向“懂你”。</em></h2>
+      <div class="principles">
+        <div class="principle"><h3>先感受，再解释</h3><p>首屏先用山水与声波建立气质，再进入能力与业务，避免技术名词先行。</p></div>
+        <div class="principle"><h3>交互必须有回声</h3><p>点击、移动、发声和滚动都会得到视觉反馈，让“理解”成为可感知的过程。</p></div>
+        <div class="principle"><h3>真实边界要说清</h3><p>当前版本把预设回应、麦克风本地分析和未接入真实服务明确标注，便于后续迭代。</p></div>
+      </div>
+      <div class="review"><h2>建议客户重点评审</h2><ol><li>“听见山水，也听见你”是否准确表达企业希望建立的信任感？</li><li>AI 语音、情感计算、企业智能、边缘计算四个能力入口是否符合业务优先级？</li><li>从选择需求到留下摘要的咨询路径，是否足够自然、可信、愿意继续？</li><li>传统意象的浓度、科技感的浓度，是否与品牌未来的客户群匹配？</li></ol></div>
+    </section>
+    <p class="avoid"><strong>本轮评审范围：</strong>视觉、文案与交互方向。当前需求回应为预设示例；麦克风只在本地分析音量，不保存录音；摘要复制与下载不会提交需求。真实 AI、咨询提交及正式企业资料需在后续阶段确认并接入。</p>
+    <footer class="footer"><span>四川川江科技研究院 · 高山流水觅知音</span><span>DESIGN PREVIEW · 2026.10.14</span></footer>
+  </main>
+</body>
+</html>
