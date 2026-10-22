@@ -1,6 +1,0 @@
-name = "chuanjiang-v7"
-pages_build_output_dir = "dist/cloudflare"
-compatibility_date = "2026-10-15"
-
-# Set PREVIEW_PASSWORD and SESSION_SECRET as encrypted secrets for both production and preview.
-# Never place their values in this file or in the repository.

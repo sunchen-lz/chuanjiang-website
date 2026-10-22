@@ -23,7 +23,7 @@ const bundle = (Array.isArray(result) ? result.flatMap(item => item.output) : re
   .find(item => item.type === 'chunk' && item.isEntry);
 if (!bundle) throw new Error('Preview JavaScript bundle was not generated.');
 
-const client = path.join(web, 'dist', 'client');
+const client = path.join(web, 'dist');
 let html = await fs.readFile(path.join(client, 'index.html'), 'utf8');
 const cssMatch = html.match(/<link\s+rel="stylesheet"\s+href="([^"]+)"[^>]*>/);
 if (!cssMatch) throw new Error('Built stylesheet was not found. Run pnpm build first.');

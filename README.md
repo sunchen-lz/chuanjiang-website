@@ -13,6 +13,14 @@ pnpm dev
 
 浏览器打开 http://127.0.0.1:4321 。`pnpm check` 检查类型，`pnpm build` 生成 `apps/web/dist`，`pnpm preview` 预览构建。
 
+## 在线客户演示
+
+网站通过 GitHub Pages 公开托管。推送到 `main` 后，`.github/workflows/github-pages.yml` 自动检查、构建并发布 `apps/web/dist`，无需服务端运行时或访问密码。
+
+GitHub 默认地址为 https://sunchen-lz.github.io/chuanjiang-website/ 。自定义域名计划使用 `preview.xuezhi-ai.cn`，保留根域名与 `www` 的现有网站。域名管理平台需添加 CNAME：主机记录 `preview`，记录值 `sunchen-lz.github.io`，随后在仓库 Settings → Pages 配置自定义域名并启用 HTTPS。
+
+发布流程根据 Pages 设置自动选择资源路径。手动构建可设置 `SITE_URL` 和 `BASE_PATH`；自定义域名的 `BASE_PATH` 为 `/`，GitHub 默认地址为 `/chuanjiang-website`。界面演示中的反馈、需求和运营数据仍只保存在当前浏览器。
+
 本机还可以双击 `start-site.cmd` 启动开发预览；它优先使用已安装的 Node/pnpm，并支持当前环境已有的本地运行时。
 
 ## 原型范围

@@ -6,13 +6,8 @@
   "scripts": {
     "dev": "pnpm --filter @chuanjiang/web dev",
     "build": "node scripts/create-experience.mjs && pnpm --filter @chuanjiang/web build",
-    "build:cloudflare": "pnpm build && node scripts/build-cloudflare.mjs",
-    "preview:private": "wrangler pages dev dist/cloudflare",
     "check": "pnpm --filter @chuanjiang/web check",
     "preview": "pnpm --filter @chuanjiang/web preview",
     "package:preview": "pnpm build && node scripts/package-preview.mjs"
-  },
-  "devDependencies": {
-    "wrangler": "4.41.0"
   }
 }
